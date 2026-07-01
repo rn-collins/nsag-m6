@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ethical Civic Sponsorship Governance Readiness — NSAG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@500;600;700&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --nsag: #4D45A8; --nsag-light: #E8E5F5;
+    --m: #6B2937; --m-light: #F5E9EB;
+    --cream: #F6F3EC; --ink: #1C1B1F; --ink-mid: #4A4656; --ink-soft: #8A8497; --white: #FFFFFF;
+    --pioneering: #2E5A28; --emerging: #1B7A68; --developing: #B8842A; --early: #C24A2E;
+    --border: rgba(77,69,168,0.12); --shadow: 0 2px 24px rgba(28,27,31,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Manrope',sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+  .progress-rail { position: fixed; top:0; left:0; right:0; height:3px; background: var(--nsag-light); z-index:100; }
+  .progress-fill { height:100%; background: var(--m); transition: width 0.4s ease; }
+  header { padding: 20px 32px; display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid var(--border); background: var(--white); }
+  .logo { font-family:'Syne',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.12em; color: var(--nsag); text-transform:uppercase; }
+  .module-badge { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; color: var(--m); background: var(--m-light); padding:4px 10px; border-radius:2px; text-transform:uppercase; }
+  .screen { display:none; flex:1; align-items:center; justify-content:center; padding:48px 24px; min-height:calc(100vh - 61px); }
+  .screen.active { display:flex; }
+  .welcome-card { max-width:640px; width:100%; text-align:center; }
+  .welcome-eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; color: var(--m); text-transform:uppercase; margin-bottom:20px; }
+  .welcome-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,52px); font-weight:600; line-height:1.1; color: var(--ink); margin-bottom:24px; }
+  .welcome-title em { font-style:italic; color: var(--nsag); }
+  .welcome-desc { font-size:16px; line-height:1.7; color: var(--ink-mid); margin-bottom:12px; }
+  .welcome-meta { font-family:'DM Mono',monospace; font-size:12px; color: var(--ink-soft); margin-bottom:40px; }
+  .btn-primary { display:inline-block; background: var(--nsag); color: var(--white); font-family:'Syne',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.04em; padding:14px 36px; border:none; cursor:pointer; transition:background 0.2s; border-radius:2px; }
+  .btn-primary:hover { background:#3D3698; }
+  .disclaimer { margin-top:24px; font-size:12px; color: var(--ink-soft); line-height:1.6; }
+  .question-wrap { max-width:680px; width:100%; }
+  .q-meta { display:flex; align-items:center; gap:12px; margin-bottom:32px; }
+  .q-dimension { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.1em; color: var(--m); text-transform:uppercase; }
+  .q-counter { font-family:'DM Mono',monospace; font-size:11px; color: var(--ink-soft); }
+  .q-text { font-family:'Syne',sans-serif; font-size:clamp(18px,2.5vw,22px); font-weight:600; line-height:1.4; color: var(--ink); margin-bottom:32px; padding-left:16px; border-left:3px solid var(--m); }
+  .options { display:flex; flex-direction:column; gap:12px; margin-bottom:40px; }
+  .option { background: var(--white); border:1.5px solid var(--border); border-radius:4px; padding:16px 20px; cursor:pointer; font-size:15px; line-height:1.5; color: var(--ink-mid); transition:border-color 0.2s,background 0.2s,color 0.2s; text-align:left; }
+  .option:hover { border-color: var(--nsag); color: var(--ink); background: var(--nsag-light); }
+  .option.selected { border-color: var(--nsag); background: var(--nsag-light); color: var(--nsag); font-weight:600; }
+  .q-nav { display:flex; justify-content:space-between; align-items:center; }
+  .btn-back { background:none; border:none; font-family:'Manrope',sans-serif; font-size:14px; color: var(--ink-soft); cursor:pointer; padding:10px 0; transition:color 0.2s; }
+  .btn-back:hover { color: var(--ink); }
+  .btn-next { background: var(--nsag); color: var(--white); font-family:'Syne',sans-serif; font-weight:600; font-size:14px; padding:12px 28px; border:none; cursor:pointer; border-radius:2px; transition:background 0.2s,opacity 0.2s; }
+  .btn-next:disabled { opacity:0.35; cursor:not-allowed; }
+  .btn-next:not(:disabled):hover { background:#3D3698; }
+  .calculating-wrap { text-align:center; max-width:480px; }
+  .calc-label { font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.1em; color: var(--ink-soft); text-transform:uppercase; margin-bottom:24px; }
+  .calc-number { font-family:'Cormorant Garamond',serif; font-size:96px; font-weight:600; color: var(--nsag); line-height:1; margin-bottom:8px; }
+  .calc-bar { width:100%; height:4px; background: var(--nsag-light); border-radius:2px; overflow:hidden; margin-bottom:24px; }
+  .calc-fill { height:100%; background: var(--m); width:0; transition:width 2s ease; }
+  .result-wrap { max-width:680px; width:100%; }
+  .result-header { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--border); }
+  .result-eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; color: var(--ink-soft); text-transform:uppercase; margin-bottom:16px; }
+  .tier-name { font-family:'Cormorant Garamond',serif; font-size:clamp(52px,8vw,80px); font-weight:600; line-height:1; margin-bottom:16px; opacity:0; transform:translateY(12px); transition:opacity 0.6s ease,transform 0.6s ease; }
+  .tier-name.revealed { opacity:1; transform:translateY(0); }
+  .tier-name.pioneering { color: var(--pioneering); }
+  .tier-name.emerging { color: var(--emerging); }
+  .tier-name.developing { color: var(--developing); }
+  .tier-name.early { color: var(--early); }
+  .tier-desc { font-size:16px; line-height:1.7; color: var(--ink-mid); max-width:520px; }
+  .gate-section { background: var(--white); border:1.5px solid var(--border); border-radius:4px; padding:32px; margin-bottom:24px; }
+  .gate-title { font-family:'Syne',sans-serif; font-weight:700; font-size:16px; color: var(--ink); margin-bottom:8px; }
+  .gate-desc { font-size:14px; color: var(--ink-mid); margin-bottom:24px; line-height:1.6; }
+  .gate-form { display:flex; gap:12px; flex-wrap:wrap; }
+  .gate-input { flex:1; min-width:200px; padding:12px 16px; font-family:'Manrope',sans-serif; font-size:14px; border:1.5px solid var(--border); background: var(--cream); color: var(--ink); border-radius:2px; outline:none; transition:border-color 0.2s; }
+  .gate-input:focus { border-color: var(--nsag); }
+  .btn-gate { background: var(--m); color: var(--white); font-family:'Syne',sans-serif; font-weight:600; font-size:14px; padding:12px 24px; border:none; cursor:pointer; border-radius:2px; white-space:nowrap; }
+  .dimensions { display:flex; flex-direction:column; gap:16px; margin-top:24px; }
+  .dimension-row { background: var(--white); border:1px solid var(--border); border-radius:4px; padding:20px 24px; }
+  .dim-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .dim-name { font-family:'Syne',sans-serif; font-weight:600; font-size:13px; color: var(--ink); text-transform:uppercase; letter-spacing:0.05em; }
+  .dim-tier { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; padding:3px 8px; border-radius:2px; }
+  .dim-tier.pioneering { background:#E8F5E6; color: var(--pioneering); }
+  .dim-tier.emerging { background:#E4F3F0; color: var(--emerging); }
+  .dim-tier.developing { background:#FBF3E4; color: var(--developing); }
+  .dim-tier.early { background:#FBE9E6; color: var(--early); }
+  .dim-bar-rail { height:4px; background: var(--nsag-light); border-radius:2px; overflow:hidden; margin-bottom:10px; }
+  .dim-bar-fill { height:100%; border-radius:2px; transition:width 0.8s ease; }
+  .dim-finding { font-size:13px; color: var(--ink-mid); line-height:1.5; }
+  .blurred { filter:blur(6px); pointer-events:none; user-select:none; }
+  .cta-section { margin-top:32px; padding:28px 32px; background: var(--nsag); border-radius:4px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
+  .cta-text { color: var(--white); }
+  .cta-text strong { display:block; font-family:'Syne',sans-serif; font-size:15px; margin-bottom:4px; }
+  .cta-text span { font-size:13px; opacity:0.8; }
+  .btn-cta { background: var(--white); color: var(--nsag); font-family:'Syne',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.04em; padding:11px 22px; border:none; border-radius:2px; cursor:pointer; }
+  .success-msg { display:none; background:#E8F5E6; border:1px solid var(--pioneering); border-radius:4px; padding:14px 20px; font-size:14px; color: var(--pioneering); margin-top:12px; }
+  footer { padding:20px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .footer-text { font-size:12px; color: var(--ink-soft); }
+  .footer-link { font-size:12px; color: var(--nsag); text-decoration:none; }
+  .footer-link:hover { text-decoration:underline; }
+  @media (max-width:600px) { header { padding:16px 20px; } .screen { padding:32px 16px; } .gate-form { flex-direction:column; } .cta-section { flex-direction:column; align-items:flex-start; } }
+</style>
+</head>
+<body>
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+<header>
+  <div class="logo">NSAG</div>
+  <div class="module-badge">M6 · Ethical Civic Sponsorship</div>
+</header>
+<div class="screen active" id="screenWelcome">
+  <div class="welcome-card">
+    <div class="welcome-eyebrow">Neurocognitive Systems Advisory Group</div>
+    <h1 class="welcome-title">Ethical Civic Sponsorship<br><em>Governance Readiness</em></h1>
+    <p class="welcome-desc">A sponsorship without a governance framework is a liability without a number attached to it. This assessment measures whether your organization has the policy, process, and accountability structures needed to accept corporate sponsorships without compromising institutional integrity or public trust.</p>
+    <p class="welcome-meta">6 dimensions · 12 questions · 8 minutes</p>
+    <button class="btn-primary" onclick="startAssessment()">Begin Assessment</button>
+    <p class="disclaimer">Your overall tier is shown immediately at no cost. Full dimension breakdown delivered by email.</p>
+  </div>
+</div>
+<div class="screen" id="screenQuestion">
+  <div class="question-wrap">
+    <div class="q-meta"><span class="q-dimension" id="qDimension"></span><span class="q-counter" id="qCounter"></span></div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="qOptions"></div>
+    <div class="q-nav">
+      <button class="btn-back" id="btnBack" onclick="prevQuestion()">← Back</button>
+      <button class="btn-next" id="btnNext" onclick="nextQuestion()" disabled>Continue →</button>
+    </div>
+  </div>
+</div>
+<div class="screen" id="screenCalculating">
+  <div class="calculating-wrap">
+    <div class="calc-label">Calculating your score</div>
+    <div class="calc-number" id="calcNumber">0</div>
+    <div class="calc-bar"><div class="calc-fill" id="calcFill"></div></div>
+    <div class="calc-label" id="calcStatus">Analyzing your responses...</div>
+  </div>
+</div>
+<div class="screen" id="screenResult">
+  <div class="result-wrap">
+    <div class="result-header">
+      <div class="result-eyebrow">Your organization is</div>
+      <div class="tier-name" id="tierName"></div>
+      <p class="tier-desc" id="tierDesc"></p>
+    </div>
+    <div class="gate-section" id="gateSection">
+      <div class="gate-title">See your full dimension-by-dimension breakdown</div>
+      <div class="gate-desc">Your complete report shows where you score on each dimension with specific findings and recommended next steps.</div>
+      <div class="gate-form">
+        <input type="email" class="gate-input" id="gateEmail" placeholder="Work email address" />
+        <input type="text" class="gate-input" id="gateOrg" placeholder="Organization name" />
+        <button class="btn-gate" onclick="submitGate()">Send My Report</button>
+      </div>
+      <div class="success-msg" id="gateSuccess">Received. We'll follow up within 24 hours with your full dimension report.</div>
+    </div>
+    <div class="dimensions blurred" id="dimensionsSection"></div>
+    <div class="cta-section">
+      <div class="cta-text">
+        <strong>Ready to move up a tier?</strong>
+        <span>NSAG M6 advisory — from $8,500 for a 90-day engagement.</span>
+      </div>
+      <button class="btn-cta" onclick="window.location.href='mailto:collins.ra@northeastern.edu?subject=NSAG M6 Advisory Inquiry'">Talk to an Advisor</button>
+    </div>
+  </div>
+</div>
+<footer>
+  <span class="footer-text">© 2026 RN Collins LLC · Aloha AI Consulting · NSAG Framework</span>
+  <a href="mailto:collins.ra@northeastern.edu" onclick="navigator.clipboard.writeText('collins.ra@northeastern.edu')" class="footer-link">Contact the Architect</a>
+</footer>
+<script>
+const QUESTIONS = [
+  {
+    dimension: "Disclosure Practices",
+    dimKey: "disclosure",
+    text: "Are all organizational sponsorships publicly disclosed, including amounts and material terms?",
+    options: [
+      { text: "Yes — all sponsorships publicly disclosed with amounts and terms", score: 3 },
+      { text: "Primary/major sponsorships disclosed; minor relationships are not", score: 2 },
+      { text: "Sponsor logos displayed; financial terms not disclosed", score: 1 },
+      { text: "No systematic disclosure of sponsorship relationships", score: 0 }
+    ]
+  },
+  {
+    dimension: "Disclosure Practices",
+    dimKey: "disclosure",
+    text: "Are sponsorship disclosures made in all contexts where the relationship is relevant (event signage, digital properties, publications)?",
+    options: [
+      { text: "Yes — consistent disclosure across all relevant contexts", score: 3 },
+      { text: "Disclosed in primary contexts; some gaps exist", score: 2 },
+      { text: "Disclosed at events only; digital and publication disclosure absent", score: 1 },
+      { text: "Disclosure is inconsistent and not policy-driven", score: 0 }
+    ]
+  },
+  {
+    dimension: "Conflict of Interest Policy",
+    dimKey: "conflict",
+    text: "Does your organization have a written conflict of interest policy specifically governing sponsorship acceptance?",
+    options: [
+      { text: "Yes — written, adopted, and actively applied to all new sponsorship decisions", score: 3 },
+      { text: "Written policy exists; inconsistently applied", score: 2 },
+      { text: "Informal conflict of interest practice; not codified", score: 1 },
+      { text: "No conflict of interest policy for sponsorships", score: 0 }
+    ]
+  },
+  {
+    dimension: "Conflict of Interest Policy",
+    dimKey: "conflict",
+    text: "Is every new sponsorship formally reviewed against your conflict of interest policy before acceptance?",
+    options: [
+      { text: "Yes — formal review with documentation required for all sponsorships", score: 3 },
+      { text: "Review occurs for major sponsorships; smaller ones are ad hoc", score: 2 },
+      { text: "Informal review by leadership; no formal process", score: 1 },
+      { text: "No review — sponsorships are accepted without formal evaluation", score: 0 }
+    ]
+  },
+  {
+    dimension: "Community Benefit",
+    dimKey: "community",
+    text: "Does every sponsorship arrangement include a defined community benefit component?",
+    options: [
+      { text: "Yes — community benefit is a required term in all sponsorship agreements", score: 3 },
+      { text: "Community benefit included in major agreements; not required in all", score: 2 },
+      { text: "Community benefit discussed but not formally required", score: 1 },
+      { text: "Community benefit is not a component of sponsorship agreements", score: 0 }
+    ]
+  },
+  {
+    dimension: "Community Benefit",
+    dimKey: "community",
+    text: "Are community benefit commitments monitored and reported on after the sponsorship period?",
+    options: [
+      { text: "Yes — outcomes reported publicly as part of sponsorship accountability", score: 3 },
+      { text: "Outcomes tracked internally; not publicly reported", score: 2 },
+      { text: "Outcomes informally noted; no systematic tracking", score: 1 },
+      { text: "Community benefit commitments are not monitored", score: 0 }
+    ]
+  },
+  {
+    dimension: "Sponsor Selection Criteria",
+    dimKey: "criteria",
+    text: "Does your organization have published criteria defining which sponsors you will and will not accept?",
+    options: [
+      { text: "Yes — explicit exclusion and inclusion criteria are published and enforced", score: 3 },
+      { text: "Internal criteria exist; not published publicly", score: 2 },
+      { text: "Implicit criteria used; not formally documented", score: 1 },
+      { text: "No sponsor selection criteria — decisions are made ad hoc", score: 0 }
+    ]
+  },
+  {
+    dimension: "Sponsor Selection Criteria",
+    dimKey: "criteria",
+    text: "Have you declined a sponsorship in the past two years based on a conflict with your criteria?",
+    options: [
+      { text: "Yes — declined at least one sponsorship on criteria grounds", score: 3 },
+      { text: "Would decline if criteria were violated; no test case has arisen", score: 2 },
+      { text: "Criteria are informal; uncertain whether a decline has occurred", score: 1 },
+      { text: "No — no sponsorship has been declined; criteria may not exist", score: 0 }
+    ]
+  },
+  {
+    dimension: "Accountability Mechanisms",
+    dimKey: "accountability",
+    text: "Is there an annual or regular review of all active sponsorship relationships?",
+    options: [
+      { text: "Yes — formal annual review with documented outcomes", score: 3 },
+      { text: "Informal periodic review by leadership", score: 2 },
+      { text: "Review occurs only when a concern is raised", score: 1 },
+      { text: "No regular sponsorship review", score: 0 }
+    ]
+  },
+  {
+    dimension: "Accountability Mechanisms",
+    dimKey: "accountability",
+    text: "Does your organization have a clear process for terminating a sponsorship if a conflict of interest emerges?",
+    options: [
+      { text: "Yes — termination process is documented and has been used or is ready to use", score: 3 },
+      { text: "Process exists informally; not documented", score: 2 },
+      { text: "Would address it if it arose; no process defined", score: 1 },
+      { text: "No termination process — sponsorships are assumed to continue", score: 0 }
+    ]
+  },
+  {
+    dimension: "Staff Independence",
+    dimKey: "independence",
+    text: "Are staff and board members protected from sponsor pressure to change organizational positions or communications?",
+    options: [
+      { text: "Yes — explicit independence clause in sponsorship agreements; staff briefed", score: 3 },
+      { text: "Implied independence; not formally protected in agreements", score: 2 },
+      { text: "Independence assumed but not formally structured", score: 1 },
+      { text: "No protection against sponsor pressure on organizational positions", score: 0 }
+    ]
+  },
+  {
+    dimension: "Staff Independence",
+    dimKey: "independence",
+    text: "Has any sponsor attempted to influence your organization's programming, communications, or positions in the past two years?",
+    options: [
+      { text: "No — and we have formal mechanisms that prevent this", score: 3 },
+      { text: "No — and we are confident our governance would prevent it", score: 2 },
+      { text: "Possibly — informal pressure has occurred but was resisted", score: 1 },
+      { text: "Yes — sponsor influence on organizational content has occurred", score: 0 }
+    ]
+  },
+];
+
+const DIM_FINDINGS = {
+  disclosure: {
+    pioneering: 'All sponsorships are publicly disclosed with amounts and material terms across all relevant contexts.',
+    emerging: 'Primary sponsorships disclosed. Minor relationships and some contexts remain undisclosed.',
+    developing: 'Logos displayed at events but financial terms and full scope are not disclosed.',
+    early: 'No systematic disclosure. Audiences and stakeholders cannot assess conflicts they cannot see.',
+  },
+  conflict: {
+    pioneering: 'A written conflict of interest policy is adopted and formally applied to every new sponsorship decision.',
+    emerging: 'Policy exists but is inconsistently applied — typically to major sponsors only.',
+    developing: 'Informal practice without codified standards. Conflicts are assessed intuitively, not systematically.',
+    early: 'No conflict of interest policy. Every sponsorship decision is made without a framework, creating compounding liability.',
+  },
+  community: {
+    pioneering: 'Community benefit is a required term in all sponsorship agreements, with outcomes tracked and reported.',
+    emerging: 'Community benefit is included in major agreements but not uniformly required.',
+    developing: 'Discussed but not formally required. Intent exists without enforceable commitment.',
+    early: 'No community benefit requirements. Sponsorships serve organizational funding needs without structured community return.',
+  },
+  criteria: {
+    pioneering: 'Published sponsor selection criteria with explicit exclusions are enforced — and used to decline sponsors.',
+    emerging: 'Internal criteria exist but are not public. Selection appears principled without being accountable.',
+    developing: 'Implicit criteria are used but not documented. Decisions look ad hoc from outside.',
+    early: 'No selection criteria. Sponsorships are accepted or declined without a defensible framework.',
+  },
+  accountability: {
+    pioneering: 'Annual review of all sponsorships with a clear, documented termination process that has been tested.',
+    emerging: 'Informal periodic review. Termination process is undefined until a conflict forces a decision.',
+    developing: 'Review occurs only when a concern is raised. No proactive accountability mechanism.',
+    early: 'No accountability system. Sponsorships are assumed to continue without review.',
+  },
+  independence: {
+    pioneering: 'Staff and board independence from sponsor pressure is formally protected in all agreements.',
+    emerging: 'Independence assumed but not formally protected in agreement language.',
+    developing: 'No structural protection. Independence depends on organizational culture, not policy.',
+    early: 'Sponsor influence on organizational positions or content has occurred or cannot be ruled out.',
+  },
+};
+
+const TIER_INFO = {
+  pioneering: { label: "Pioneering", cssClass: "pioneering", desc: "Your organization has built strong governance infrastructure across multiple dimensions. The work now is to maintain these systems under pressure and close remaining gaps." },
+  emerging: { label: "Emerging", cssClass: "emerging", desc: "Your organization is building in the right direction. Meaningful structures are in place. The remaining gaps are specific and addressable — this is where targeted interventions produce the most measurable improvement." },
+  developing: { label: "Developing", cssClass: "developing", desc: "Your organization has early-stage infrastructure. Some awareness and individual supports exist, but systemic conditions have not yet been addressed. The risk of incidents, liability, and trust erosion is real." },
+  early: { label: "Early Stage", cssClass: "early", desc: "Governance infrastructure for this domain does not yet meaningfully exist in your organization. The path forward starts with a leadership conversation and a formal assessment of what needs to be built first." }
+};
+
+let currentQ = 0, answers = new Array(QUESTIONS.length).fill(null), scores = {};
+
+function startAssessment() {
+  document.getElementById('screenWelcome').classList.remove('active');
+  document.getElementById('screenQuestion').classList.add('active');
+  renderQuestion(0);
+}
+
+function renderQuestion(idx) {
+  const q = QUESTIONS[idx];
+  document.getElementById('qDimension').textContent = q.dimension;
+  document.getElementById('qCounter').textContent = (idx+1) + ' of ' + QUESTIONS.length;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('btnBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
+  const optDiv = document.getElementById('qOptions');
+  optDiv.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[idx] === i ? ' selected' : '');
+    btn.textContent = opt.text;
+    btn.onclick = () => { answers[idx] = i; document.querySelectorAll('.option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('btnNext').disabled = false; };
+    optDiv.appendChild(btn);
+  });
+  document.getElementById('progressFill').style.width = (idx / QUESTIONS.length * 100) + '%';
+  document.getElementById('btnNext').disabled = answers[idx] === null;
+  currentQ = idx;
+}
+
+function nextQuestion() { currentQ < QUESTIONS.length - 1 ? renderQuestion(++currentQ) : showCalculating(); }
+function prevQuestion() { if (currentQ > 0) renderQuestion(--currentQ); }
+
+function getTier(s) { return s >= 80 ? 'pioneering' : s >= 60 ? 'emerging' : s >= 40 ? 'developing' : 'early'; }
+
+function calculateScores() {
+  const dimRaw = {}, dimCount = {};
+  QUESTIONS.forEach((q, i) => {
+    if (!dimRaw[q.dimKey]) { dimRaw[q.dimKey] = 0; dimCount[q.dimKey] = 0; }
+    dimRaw[q.dimKey] += q.options[answers[i]].score;
+    dimCount[q.dimKey]++;
+  });
+  const dimNorm = {};
+  Object.keys(dimRaw).forEach(k => { dimNorm[k] = Math.round((dimRaw[k] / (dimCount[k] * 3)) * 100); });
+  scores = dimNorm;
+  const overall = Math.round(Object.values(dimNorm).reduce((a,b) => a+b, 0) / Object.keys(dimNorm).length);
+  return { overall, dimensions: dimNorm };
+}
+
+function showCalculating() {
+  document.getElementById('screenQuestion').classList.remove('active');
+  document.getElementById('screenCalculating').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  const final = calculateScores();
+  let count = 0;
+  const ci = setInterval(() => { count = Math.min(count + 2, final.overall); document.getElementById('calcNumber').textContent = count; if (count >= final.overall) clearInterval(ci); }, 30);
+  document.getElementById('calcFill').style.width = final.overall + '%';
+  setTimeout(() => showResults(final), 2800);
+}
+
+function showResults(final) {
+  document.getElementById('screenCalculating').classList.remove('active');
+  document.getElementById('screenResult').classList.add('active');
+  const tier = getTier(final.overall), info = TIER_INFO[tier];
+  const el = document.getElementById('tierName');
+  el.textContent = info.label; el.className = 'tier-name ' + info.cssClass;
+  setTimeout(() => el.classList.add('revealed'), 100);
+  document.getElementById('tierDesc').textContent = info.desc;
+  renderDimensions(final.dimensions);
+}
+
+function renderDimensions(dimNorm) {
+  const colors = { pioneering: '#2E5A28', emerging: '#1B7A68', developing: '#B8842A', early: '#C24A2E' };
+  const dimLabels = {'disclosure': 'Disclosure Practices', 'conflict': 'Conflict of Interest Policy', 'community': 'Community Benefit', 'criteria': 'Sponsor Selection Criteria', 'accountability': 'Accountability Mechanisms', 'independence': 'Staff Independence'};
+  const container = document.getElementById('dimensionsSection');
+  container.innerHTML = '';
+  Object.keys(dimNorm).forEach(key => {
+    const score = dimNorm[key], tier = getTier(score), label = dimLabels[key] || key;
+    const finding = DIM_FINDINGS[key] ? DIM_FINDINGS[key][tier] : 'Score: ' + score + '/100';
+    container.innerHTML += `<div class="dimension-row"><div class="dim-header"><span class="dim-name">${label}</span><span class="dim-tier ${tier}">${tier === 'early' ? 'Early Stage' : tier.charAt(0).toUpperCase() + tier.slice(1)}</span></div><div class="dim-bar-rail"><div class="dim-bar-fill" style="width:${score}%;background:${colors[tier]}"></div></div><p class="dim-finding">${finding}</p></div>`;
+  });
+
+}
+function submitGate() {
+  const email = document.getElementById('gateEmail').value;
+  if (!email || !email.includes('@')) { document.getElementById('gateEmail').focus(); return; }
+  const org = document.getElementById('gateOrg').value;
+  fetch('https://nsag-api.vercel.app/api/lead', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, org, source: 'nsag-m6', module: 'M6', tier: getTier(Object.values(scores).reduce((a,b)=>a+b,0)/Object.keys(scores).length), scores, timestamp: new Date().toISOString() })
+  }).catch(() => {});
+  document.getElementById('gateSuccess').style.display = 'block';
+  document.getElementById('dimensionsSection').classList.remove('blurred');
+  document.getElementById('gateSection').style.opacity = '0.5';
+  document.getElementById('gateSection').style.pointerEvents = 'none';
+}
+</script>
+</body>
+</html>
