@@ -2,441 +2,929 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ethical Civic Sponsorship Governance Readiness — NSAG</title>
+<meta name="color-scheme" content="light">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M6 Governance Challenge · Ethical Civic Sponsorship · NSAG</title>
+<meta name="description" content="12 scenarios. 6 dimensions. Your governance tier revealed instantly. Ethical Civic Sponsorship — NSAG M6.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@500;600;700&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-  :root {
-    --nsag: #4D45A8; --nsag-light: #E8E5F5;
-    --m: #6B2937; --m-light: #F5E9EB;
-    --cream: #F6F3EC; --ink: #1C1B1F; --ink-mid: #4A4656; --ink-soft: #8A8497; --white: #FFFFFF;
-    --pioneering: #2E5A28; --emerging: #1B7A68; --developing: #B8842A; --early: #C24A2E;
-    --border: rgba(77,69,168,0.12); --shadow: 0 2px 24px rgba(28,27,31,0.08);
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Manrope',sans-serif; background: var(--cream); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
-  .progress-rail { position: fixed; top:0; left:0; right:0; height:3px; background: var(--nsag-light); z-index:100; }
-  .progress-fill { height:100%; background: var(--m); transition: width 0.4s ease; }
-  header { padding: 20px 32px; display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid var(--border); background: var(--white); }
-  .logo { font-family:'Syne',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.12em; color: var(--nsag); text-transform:uppercase; }
-  .module-badge { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; color: var(--m); background: var(--m-light); padding:4px 10px; border-radius:2px; text-transform:uppercase; }
-  .screen { display:none; flex:1; align-items:center; justify-content:center; padding:48px 24px; min-height:calc(100vh - 61px); }
-  .screen.active { display:flex; }
-  .welcome-card { max-width:640px; width:100%; text-align:center; }
-  .welcome-eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.14em; color: var(--m); text-transform:uppercase; margin-bottom:20px; }
-  .welcome-title { font-family:'Cormorant Garamond',serif; font-size:clamp(36px,5vw,52px); font-weight:600; line-height:1.1; color: var(--ink); margin-bottom:24px; }
-  .welcome-title em { font-style:italic; color: var(--nsag); }
-  .welcome-desc { font-size:16px; line-height:1.7; color: var(--ink-mid); margin-bottom:12px; }
-  .welcome-meta { font-family:'DM Mono',monospace; font-size:12px; color: var(--ink-soft); margin-bottom:40px; }
-  .btn-primary { display:inline-block; background: var(--nsag); color: var(--white); font-family:'Syne',sans-serif; font-weight:600; font-size:14px; letter-spacing:0.04em; padding:14px 36px; border:none; cursor:pointer; transition:background 0.2s; border-radius:2px; }
-  .btn-primary:hover { background:#3D3698; }
-  .disclaimer { margin-top:24px; font-size:12px; color: var(--ink-soft); line-height:1.6; }
-  .question-wrap { max-width:680px; width:100%; }
-  .q-meta { display:flex; align-items:center; gap:12px; margin-bottom:32px; }
-  .q-dimension { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.1em; color: var(--m); text-transform:uppercase; }
-  .q-counter { font-family:'DM Mono',monospace; font-size:11px; color: var(--ink-soft); }
-  .q-text { font-family:'Syne',sans-serif; font-size:clamp(18px,2.5vw,22px); font-weight:600; line-height:1.4; color: var(--ink); margin-bottom:32px; padding-left:16px; border-left:3px solid var(--m); }
-  .options { display:flex; flex-direction:column; gap:12px; margin-bottom:40px; }
-  .option { background: var(--white); border:1.5px solid var(--border); border-radius:4px; padding:16px 20px; cursor:pointer; font-size:15px; line-height:1.5; color: var(--ink-mid); transition:border-color 0.2s,background 0.2s,color 0.2s; text-align:left; }
-  .option:hover { border-color: var(--nsag); color: var(--ink); background: var(--nsag-light); }
-  .option.selected { border-color: var(--nsag); background: var(--nsag-light); color: var(--nsag); font-weight:600; }
-  .q-nav { display:flex; justify-content:space-between; align-items:center; }
-  .btn-back { background:none; border:none; font-family:'Manrope',sans-serif; font-size:14px; color: var(--ink-soft); cursor:pointer; padding:10px 0; transition:color 0.2s; }
-  .btn-back:hover { color: var(--ink); }
-  .btn-next { background: var(--nsag); color: var(--white); font-family:'Syne',sans-serif; font-weight:600; font-size:14px; padding:12px 28px; border:none; cursor:pointer; border-radius:2px; transition:background 0.2s,opacity 0.2s; }
-  .btn-next:disabled { opacity:0.35; cursor:not-allowed; }
-  .btn-next:not(:disabled):hover { background:#3D3698; }
-  .calculating-wrap { text-align:center; max-width:480px; }
-  .calc-label { font-family:'DM Mono',monospace; font-size:12px; letter-spacing:0.1em; color: var(--ink-soft); text-transform:uppercase; margin-bottom:24px; }
-  .calc-number { font-family:'Cormorant Garamond',serif; font-size:96px; font-weight:600; color: var(--nsag); line-height:1; margin-bottom:8px; }
-  .calc-bar { width:100%; height:4px; background: var(--nsag-light); border-radius:2px; overflow:hidden; margin-bottom:24px; }
-  .calc-fill { height:100%; background: var(--m); width:0; transition:width 2s ease; }
-  .result-wrap { max-width:680px; width:100%; }
-  .result-header { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid var(--border); }
-  .result-eyebrow { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:0.12em; color: var(--ink-soft); text-transform:uppercase; margin-bottom:16px; }
-  .tier-name { font-family:'Cormorant Garamond',serif; font-size:clamp(52px,8vw,80px); font-weight:600; line-height:1; margin-bottom:16px; opacity:0; transform:translateY(12px); transition:opacity 0.6s ease,transform 0.6s ease; }
-  .tier-name.revealed { opacity:1; transform:translateY(0); }
-  .tier-name.pioneering { color: var(--pioneering); }
-  .tier-name.emerging { color: var(--emerging); }
-  .tier-name.developing { color: var(--developing); }
-  .tier-name.early { color: var(--early); }
-  .tier-desc { font-size:16px; line-height:1.7; color: var(--ink-mid); max-width:520px; }
-  .gate-section { background: var(--white); border:1.5px solid var(--border); border-radius:4px; padding:32px; margin-bottom:24px; }
-  .gate-title { font-family:'Syne',sans-serif; font-weight:700; font-size:16px; color: var(--ink); margin-bottom:8px; }
-  .gate-desc { font-size:14px; color: var(--ink-mid); margin-bottom:24px; line-height:1.6; }
-  .gate-form { display:flex; gap:12px; flex-wrap:wrap; }
-  .gate-input { flex:1; min-width:200px; padding:12px 16px; font-family:'Manrope',sans-serif; font-size:14px; border:1.5px solid var(--border); background: var(--cream); color: var(--ink); border-radius:2px; outline:none; transition:border-color 0.2s; }
-  .gate-input:focus { border-color: var(--nsag); }
-  .btn-gate { background: var(--m); color: var(--white); font-family:'Syne',sans-serif; font-weight:600; font-size:14px; padding:12px 24px; border:none; cursor:pointer; border-radius:2px; white-space:nowrap; }
-  .dimensions { display:flex; flex-direction:column; gap:16px; margin-top:24px; }
-  .dimension-row { background: var(--white); border:1px solid var(--border); border-radius:4px; padding:20px 24px; }
-  .dim-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-  .dim-name { font-family:'Syne',sans-serif; font-weight:600; font-size:13px; color: var(--ink); text-transform:uppercase; letter-spacing:0.05em; }
-  .dim-tier { font-family:'DM Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.08em; padding:3px 8px; border-radius:2px; }
-  .dim-tier.pioneering { background:#E8F5E6; color: var(--pioneering); }
-  .dim-tier.emerging { background:#E4F3F0; color: var(--emerging); }
-  .dim-tier.developing { background:#FBF3E4; color: var(--developing); }
-  .dim-tier.early { background:#FBE9E6; color: var(--early); }
-  .dim-bar-rail { height:4px; background: var(--nsag-light); border-radius:2px; overflow:hidden; margin-bottom:10px; }
-  .dim-bar-fill { height:100%; border-radius:2px; transition:width 0.8s ease; }
-  .dim-finding { font-size:13px; color: var(--ink-mid); line-height:1.5; }
-  .blurred { filter:blur(6px); pointer-events:none; user-select:none; }
-  .cta-section { margin-top:32px; padding:28px 32px; background: var(--nsag); border-radius:4px; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap; }
-  .cta-text { color: var(--white); }
-  .cta-text strong { display:block; font-family:'Syne',sans-serif; font-size:15px; margin-bottom:4px; }
-  .cta-text span { font-size:13px; opacity:0.8; }
-  .btn-cta { background: var(--white); color: var(--nsag); font-family:'Syne',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.04em; padding:11px 22px; border:none; border-radius:2px; cursor:pointer; }
-  .success-msg { display:none; background:#E8F5E6; border:1px solid var(--pioneering); border-radius:4px; padding:14px 20px; font-size:14px; color: var(--pioneering); margin-top:12px; }
-  footer { padding:20px 32px; border-top:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
-  .footer-text { font-size:12px; color: var(--ink-soft); }
-  .footer-link { font-size:12px; color: var(--nsag); text-decoration:none; }
-  .footer-link:hover { text-decoration:underline; }
-  @media (max-width:600px) { header { padding:16px 20px; } .screen { padding:32px 16px; } .gate-form { flex-direction:column; } .cta-section { flex-direction:column; align-items:flex-start; } }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{color-scheme:light only}
+:root{
+  --navy:#2E5A28;--nsag:#4D45A8;--bg:#F6F3EC;--white:#FFFFFF;
+  --text:#1C1B1F;--muted:#5A5869;--border:#E4E2DC;
+  --p-color:#2E5A28;--e-color:#4D45A8;--d-color:#956B18;--es-color:#6B2937;
+  --radius:10px;--transition:0.3s cubic-bezier(0.4,0,0.2,1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:#F6F3EC!important;color:#1C1B1F!important;min-height:100vh;display:flex;flex-direction:column;color-scheme:light}
+
+/* PROGRESS BAR */
+.progress-wrap{position:fixed;top:0;left:0;right:0;z-index:100;background:#FFFFFF!important;border-bottom:1px solid #E4E2DC;padding:0.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.progress-brand{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--navy);white-space:nowrap}
+.progress-track{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--navy);border-radius:2px;transition:width 0.5s var(--transition);width:0%}
+.progress-count{font-family:'Syne',sans-serif;font-size:0.72rem;color:var(--muted);white-space:nowrap;min-width:3rem;text-align:right}
+
+/* MAIN LAYOUT */
+.main{flex:1;display:grid;grid-template-columns:1fr 340px;gap:0;min-height:100vh;padding-top:52px}
+@media(max-width:900px){.main{grid-template-columns:1fr}.radar-panel{display:none}}
+
+/* QUESTION PANEL */
+.q-panel{display:flex;align-items:center;justify-content:center;padding:3rem 2rem;min-height:calc(100vh - 52px);position:relative;overflow:hidden;background:#FFFFFF!important}
+.screen{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:3rem 2rem;opacity:0;pointer-events:none;transform:translateX(60px);transition:opacity 0.4s ease,transform 0.4s ease}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.screen.exit{opacity:0;transform:translateX(-60px)}
+
+/* INTRO SCREEN */
+.intro-inner{max-width:600px;width:100%}
+.intro-tag{display:inline-block;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--white);background:var(--navy);padding:0.3rem 0.8rem;border-radius:3px;margin-bottom:1.5rem}
+.intro-h{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:600;line-height:1.2;color:var(--text);margin-bottom:1rem}
+.intro-sub{font-size:1rem;color:var(--muted);line-height:1.7;margin-bottom:2rem}
+.intro-meta{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;padding:1.25rem;background:var(--white);border-radius:var(--radius);border:1px solid var(--border)}
+.meta-item{text-align:center;flex:1;min-width:80px}
+.meta-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--navy);line-height:1}
+.meta-label{font-family:'Syne',sans-serif;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:0.2rem}
+.btn-start{display:inline-block;background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.04em;padding:0.9rem 2.5rem;border-radius:6px;border:none;cursor:pointer;transition:background var(--transition)}
+.btn-start:hover{background:#162840}
+
+/* QUESTION SCREEN */
+.q-inner{max-width:600px;width:100%}
+.dim-tag{display:inline-block;font-family:'Syne',sans-serif;font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--navy);background:rgba(30,54,81,0.08);padding:0.25rem 0.65rem;border-radius:3px;margin-bottom:1rem}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:clamp(1.4rem,2.5vw,1.85rem);font-weight:600;line-height:1.4;color:#2E5A28;margin-bottom:0.75rem}
+.q-context{font-size:0.92rem;color:#3D3B47;line-height:1.6;margin-bottom:1.75rem;font-weight:600;font-family:'Syne',sans-serif;letter-spacing:0.01em}
+.options{display:flex;flex-direction:column;gap:0.65rem}
+.opt{display:flex;gap:0.875rem;align-items:start;padding:1rem 1.25rem;background:#FFFFFF!important;border:2px solid #E4E2DC;border-radius:var(--radius);cursor:pointer;transition:all 0.25s ease;text-align:left;width:100%}
+.opt:hover{border-color:var(--navy);background:#f0f4f8}
+.opt.selected{border-color:var(--navy);background:rgba(30,54,81,0.1);transform:translateX(4px)}
+.opt-letter{font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:700;color:var(--white);background:var(--navy);border-radius:50%;width:1.5rem;height:1.5rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0.1rem}
+.opt.selected .opt-letter{background:var(--navy)}
+.opt-text{font-size:0.92rem;color:#1C1B1F;line-height:1.6}
+.btn-next{margin-top:1.5rem;display:inline-block;background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;padding:0.75rem 2rem;border-radius:5px;border:none;cursor:pointer;opacity:0.4;pointer-events:none;transition:all 0.2s}
+.btn-next.ready{opacity:1;pointer-events:all}
+.btn-next.ready:hover{background:#162840}
+
+/* EMAIL GATE SCREEN */
+.gate-inner{max-width:500px;width:100%;text-align:center}
+.gate-icon{font-size:2.5rem;margin-bottom:1rem}
+.gate-h{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:0.75rem}
+.gate-sub{color:var(--muted);line-height:1.7;margin-bottom:2rem;font-size:0.95rem}
+.gate-form{display:flex;flex-direction:column;gap:0.75rem;max-width:380px;margin:0 auto}
+.gate-input{padding:0.85rem 1.1rem;border:2px solid var(--border);border-radius:6px;font-family:'Manrope',sans-serif;font-size:0.95rem;color:var(--text);background:var(--white);transition:border-color 0.2s}
+.gate-input:focus{outline:none;border-color:var(--navy)}
+.gate-input.error{border-color:#C24A2E}
+.btn-reveal{background:var(--navy);color:var(--white);font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;padding:0.875rem;border-radius:6px;border:none;cursor:pointer;transition:background 0.2s}
+.btn-reveal:hover{background:#162840}
+.gate-note{font-size:0.78rem;color:var(--muted);margin-top:0.5rem}
+
+/* RESULTS SCREEN */
+.results-inner{max-width:640px;width:100%}
+.tier-reveal{text-align:center;padding:2rem;border-radius:var(--radius);margin-bottom:2rem;animation:revealIn 0.6s ease forwards}
+@keyframes revealIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
+.tier-label{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;opacity:0.75;margin-bottom:0.5rem}
+.tier-name{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:600;line-height:1;margin-bottom:0.5rem}
+.tier-score{font-size:0.9rem;opacity:0.8}
+.dim-bars{margin-bottom:2rem}
+.dim-bar-item{margin-bottom:0.875rem}
+.dim-bar-label{display:flex;justify-content:space-between;font-family:'Syne',sans-serif;font-size:0.72rem;font-weight:600;color:var(--muted);margin-bottom:0.3rem;letter-spacing:0.03em}
+.dim-bar-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.dim-bar-fill{height:100%;border-radius:4px;width:0%;transition:width 1s ease 0.3s}
+.rec-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem}
+.rec-label{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem}
+.rec-text{font-size:0.9rem;color:var(--text);line-height:1.7}
+.bridge-section{border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem}
+.bridge-label{font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.75rem}
+.bridge-text{font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem}
+.bridge-btns{display:flex;gap:0.75rem;flex-wrap:wrap}
+.bridge-btn-primary{padding:0.65rem 1.25rem;border-radius:4px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;text-decoration:none;border:none;cursor:pointer;color:var(--white)}
+.bridge-btn-secondary{padding:0.65rem 1.25rem;border-radius:4px;font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:700;text-decoration:none;background:transparent}
+.copy-btn{display:block;width:100%;text-align:center;padding:0.75rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.copy-btn:hover{border-color:var(--navy);color:var(--navy)}
+
+/* RADAR PANEL */
+.radar-panel{background:#FFFFFF!important;border-left:1px solid #E4E2DC;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;position:sticky;top:52px;height:calc(100vh - 52px)}
+.radar-title{font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;text-align:center}
+.radar-canvas-wrap{width:280px;height:280px}
+.dim-legend{margin-top:1.5rem;width:100%}
+.dim-legend-item{display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0;border-bottom:1px solid var(--border);font-size:0.78rem;color:var(--muted)}
+.dim-legend-item:last-child{border-bottom:none}
+.dim-dot{width:8px;height:8px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background 0.4s}
+.dim-dot.answered{background:var(--navy)}
+.dim-score-badge{margin-left:auto;font-family:'Syne',sans-serif;font-size:0.68rem;font-weight:700;color:var(--navy)}
+
+/* FOOTER */
+.q-footer{text-align:center;padding:1rem;font-family:'Syne',sans-serif;font-size:0.7rem;color:var(--muted)}
+.q-footer a{color:var(--muted)}
+
+/* REDUCED MOTION */
+@media(prefers-reduced-motion:reduce){
+  .screen,.progress-fill,.opt,.dim-bar-fill{transition:none!important;animation:none!important}
+  @keyframes revealIn{from,to{opacity:1;transform:none}}
+}
+/* FOCUS INDICATORS */
+:focus-visible{outline:3px solid var(--navy);outline-offset:3px;border-radius:3px}
+/* KEYBOARD HINT */
+.key-hint{font-family:'Syne',sans-serif;font-size:0.68rem;color:var(--muted);text-align:center;margin-top:0.75rem;letter-spacing:0.04em}
+.key-hint kbd{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:0.1rem 0.35rem;font-size:0.65rem}
+/* SECTOR SELECTOR */
+.sector-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.65rem;margin:1.25rem 0 1.75rem}
+.sector-btn{padding:0.875rem 1rem;border:2px solid var(--border);border-radius:var(--radius);cursor:pointer;text-align:left;background:var(--white)!important;transition:all 0.2s;font-family:'Manrope',sans-serif}
+.sector-btn:hover{border-color:var(--navy);transform:translateY(-1px)}
+.sector-btn.chosen{border-color:var(--navy);background:rgba(30,54,81,0.06)!important}
+.sector-btn-name{font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:var(--navy);margin-bottom:0.2rem}
+.sector-btn-desc{font-size:0.75rem;color:var(--muted);line-height:1.4}
+/* BACK BUTTON */
+.btn-back{background:none;border:none;font-family:'Syne',sans-serif;font-size:0.72rem;color:var(--muted);cursor:pointer;padding:0.25rem 0;display:flex;align-items:center;gap:0.35rem;margin-bottom:1rem;transition:color 0.2s}
+.btn-back:hover{color:var(--navy)}
+/* RATIONALE FLASH */
+.rationale-bar{position:absolute;bottom:0;left:0;right:0;background:rgba(30,54,81,0.95);color:white;padding:0.875rem 2rem;font-size:0.88rem;line-height:1.55;opacity:0;transform:translateY(100%);transition:all 0.3s ease;z-index:10;font-style:italic}
+.rationale-bar.show{opacity:1;transform:translateY(0)}
+/* CINEMATIC REVEAL OVERLAY */
+.reveal-overlay{position:fixed;inset:0;z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;opacity:0;pointer-events:none;transition:opacity 0.5s}
+.reveal-overlay.active{opacity:1;pointer-events:all}
+.reveal-tier-name{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,8vw,5rem);font-weight:600;color:white;text-align:center;transform:scale(0.8);opacity:0;transition:all 0.6s ease 0.3s}
+.reveal-overlay.active .reveal-tier-name{transform:scale(1);opacity:1}
+.reveal-sub{font-family:'Syne',sans-serif;font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.7);text-align:center;margin-top:0.75rem;opacity:0;transition:opacity 0.4s ease 0.7s}
+.reveal-overlay.active .reveal-sub{opacity:1}
+/* DIMENSION COMPLETE FLASH */
+.dim-complete{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:var(--navy);color:white;border-radius:50px;padding:0.6rem 1.5rem;font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;white-space:nowrap;opacity:0;pointer-events:none;z-index:20;transition:all 0.3s}
+.dim-complete.pop{transform:translate(-50%,-50%) scale(1);opacity:1}
+/* SHARE / PRINT / RETAKE BUTTONS */
+.result-actions{display:flex;gap:0.65rem;flex-wrap:wrap;margin-top:1.25rem}
+.act-btn{display:inline-flex;align-items:center;gap:0.4rem;font-family:'Syne',sans-serif;font-size:0.75rem;font-weight:700;padding:0.55rem 1rem;border-radius:4px;border:1.5px solid var(--border);background:var(--white)!important;color:var(--text);cursor:pointer;transition:all 0.2s;text-decoration:none}
+.act-btn:hover{border-color:var(--navy);color:var(--navy)}
+/* TOOLKIT PREVIEW CARD */
+.toolkit-preview{background:var(--white)!important;border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.25rem;margin-bottom:1rem}
+.toolkit-preview-label{font-family:'Syne',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem}
+.toolkit-preview-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:var(--text);margin-bottom:0.5rem}
+.toolkit-preview-list{list-style:none;margin-bottom:0.75rem}
+.toolkit-preview-list li{font-size:0.8rem;color:var(--muted);padding:0.18rem 0;display:flex;gap:0.4rem;align-items:start}
+.toolkit-preview-list li::before{content:'→';color:var(--navy);font-size:0.7rem;flex-shrink:0;margin-top:2px}
+/* DIMENSION INSIGHT */
+.dim-insight{background:rgba(30,54,81,0.05);border-radius:6px;padding:0.875rem 1rem;margin-bottom:1rem;font-size:0.87rem;line-height:1.6;color:var(--text);border-left:3px solid var(--navy)}
+/* CROSS-MODULE & PIONEERING EXAMPLE */
+.module-suggest{font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;padding:0.75rem 1rem;border:1px solid var(--border);border-radius:6px;background:var(--white)!important}
+/* MOBILE RADAR IN RESULTS */
+.mobile-radar-wrap{display:none;margin:1.25rem 0}
+@media(max-width:900px){.mobile-radar-wrap{display:block}}
+/* PRINT */
+@media print{
+  .progress-wrap,.radar-panel,.btn-start,.bridge-btns,.result-actions,.copy-btn,.mobile-radar-wrap{display:none!important}
+  body{background:white!important;color:black!important}
+  .tier-reveal{border:2px solid #ccc!important;color:black!important;background:white!important}
+  .screen.active{position:static;opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
-<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
-<header>
-  <div class="logo">NSAG</div>
-  <div class="module-badge">M6 · Ethical Civic Sponsorship</div>
-</header>
-<div class="screen active" id="screenWelcome">
-  <div class="welcome-card">
-    <div class="welcome-eyebrow">Neurocognitive Systems Advisory Group</div>
-    <h1 class="welcome-title">Ethical Civic Sponsorship<br><em>Governance Readiness</em></h1>
-    <p class="welcome-desc">A sponsorship without a governance framework is a liability without a number attached to it. This assessment measures whether your organization has the policy, process, and accountability structures needed to accept corporate sponsorships without compromising institutional integrity or public trust.</p>
-    <p class="welcome-meta">6 dimensions · 12 questions · 8 minutes</p>
-    <button class="btn-primary" onclick="startAssessment()">Begin Assessment</button>
-    <p class="disclaimer">Your overall tier is shown immediately at no cost. Full dimension breakdown delivered by email.</p>
-  </div>
+
+
+<!-- CINEMATIC REVEAL OVERLAY -->
+<div class="reveal-overlay" id="reveal-overlay">
+  <div class="reveal-tier-name" id="reveal-tier-text"></div>
+  <div class="reveal-sub" id="reveal-sub-text">Your governance tier</div>
 </div>
-<div class="screen" id="screenQuestion">
-  <div class="question-wrap">
-    <div class="q-meta"><span class="q-dimension" id="qDimension"></span><span class="q-counter" id="qCounter"></span></div>
-    <div class="q-text" id="qText"></div>
-    <div class="options" id="qOptions"></div>
-    <div class="q-nav">
-      <button class="btn-back" id="btnBack" onclick="prevQuestion()">← Back</button>
-      <button class="btn-next" id="btnNext" onclick="nextQuestion()" disabled>Continue →</button>
-    </div>
-  </div>
+<!-- RATIONALE BAR -->
+<div class="rationale-bar" id="rationale-bar"></div>
+<!-- DIMENSION COMPLETE -->
+<div class="dim-complete" id="dim-complete"></div>
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <div class="progress-brand">M6 · NSAG Governance Challenge</div>
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  <div class="progress-count" id="prog-count"></div>
 </div>
-<div class="screen" id="screenCalculating">
-  <div class="calculating-wrap">
-    <div class="calc-label">Calculating your score</div>
-    <div class="calc-number" id="calcNumber">0</div>
-    <div class="calc-bar"><div class="calc-fill" id="calcFill"></div></div>
-    <div class="calc-label" id="calcStatus">Analyzing your responses...</div>
-  </div>
-</div>
-<div class="screen" id="screenResult">
-  <div class="result-wrap">
-    <div class="result-header">
-      <div class="result-eyebrow">Your organization is</div>
-      <div class="tier-name" id="tierName"></div>
-      <p class="tier-desc" id="tierDesc"></p>
-    </div>
-    <div class="gate-section" id="gateSection">
-      <div class="gate-title">See your full dimension-by-dimension breakdown</div>
-      <div class="gate-desc">Your complete report shows where you score on each dimension with specific findings and recommended next steps.</div>
-      <div class="gate-form">
-        <input type="email" class="gate-input" id="gateEmail" placeholder="Work email address" />
-        <input type="text" class="gate-input" id="gateOrg" placeholder="Organization name" />
-        <button class="btn-gate" onclick="submitGate()">Send My Report</button>
+
+<!-- MAIN LAYOUT -->
+<div class="main">
+  <div class="q-panel">
+
+    <!-- INTRO -->
+    <div class="screen active" id="screen-intro">
+      <div class="intro-inner" id="intro-inner">
+        <div id="sector-step" style="display:none">
+          <div class="intro-tag" style="background:var(--nsag)">Step 1 of 2 · Your Sector</div>
+          <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:600;margin-bottom:0.75rem">Which best describes your institution?</h2>
+          <p style="color:var(--muted);font-size:0.92rem;margin-bottom:0.25rem">Your sector shapes which scenarios feel most familiar.</p>
+          <div class="sector-grid">
+            <button class="sector-btn" onclick="selectSector('nonprofit',this)" aria-label="Nonprofit Organization">
+              <div class="sector-btn-name">Nonprofit Organization</div>
+              <div class="sector-btn-desc">Mission-driven nonprofits with corporate sponsorship relationships</div>
+            </button>
+            <button class="sector-btn" onclick="selectSector('arts',this)" aria-label="Arts & Cultural Institution">
+              <div class="sector-btn-name">Arts & Cultural Institution</div>
+              <div class="sector-btn-desc">Museums, theaters, arts organizations, cultural centers</div>
+            </button>
+            <button class="sector-btn" onclick="selectSector('sports',this)" aria-label="Sports / Recreation Venue">
+              <div class="sector-btn-name">Sports / Recreation Venue</div>
+              <div class="sector-btn-desc">Stadiums, arenas, recreation facilities, sports organizations</div>
+            </button>
+            <button class="sector-btn" onclick="selectSector('education',this)" aria-label="Educational Institution">
+              <div class="sector-btn-name">Educational Institution</div>
+              <div class="sector-btn-desc">Schools, universities, educational nonprofits</div>
+            </button>
+          </div>
+          <button class="btn-start" onclick="showIntroFromSector()" id="sector-next" style="opacity:0.4;pointer-events:none">Continue →</button>
+        </div>
+        <div id="main-intro">
+        <div class="intro-tag">M6 · Ethical Civic Sponsorship</div>
+        <h1 class="intro-h">How well does your institution govern ethical civic sponsorship?</h1>
+        <p class="intro-sub">Fooks et al. (2013) documented how corporations use CSR frameworks to neutralize regulatory threats — making civic institutions participants in lobbying strategies regardless of intent. A sponsorship without governance is a liability without a number.</p>
+        <div class="intro-meta">
+          <div class="meta-item"><div class="meta-num">12</div><div class="meta-label">Scenarios</div></div>
+          <div class="meta-item"><div class="meta-num">6</div><div class="meta-label">Dimensions</div></div>
+          <div class="meta-item"><div class="meta-num">8–10</div><div class="meta-label">Minutes</div></div>
+          <div class="meta-item"><div class="meta-num">Free</div><div class="meta-label">No Obligation</div></div>
+        </div>
+        <button class="btn-start" onclick="beginFromIntro()">Begin the Challenge →</button>
+        </div><!-- end main-intro -->
       </div>
-      <div class="success-msg" id="gateSuccess">Received. We'll follow up within 24 hours with your full dimension report.</div>
     </div>
-    <div class="dimensions blurred" id="dimensionsSection"></div>
-    <div class="cta-section">
-      <div class="cta-text">
-        <strong>Ready to move up a tier?</strong>
-        <span>NSAG M6 advisory — from $8,500 for a 90-day engagement.</span>
+
+    <!-- QUESTION SCREENS (generated by JS) -->
+    <div id="q-screens"></div>
+
+    <!-- EMAIL GATE -->
+    <div class="screen" id="screen-gate">
+      <div class="gate-inner">
+        <div class="gate-icon">⚖️</div>
+        <h2 class="gate-h">Your governance profile is ready.</h2>
+        <p class="gate-sub">Enter your email to reveal your tier. Your governance result downloads as a PDF instantly — no waiting for email.</p>
+        <div class="gate-form">
+          <input type="email" id="gate-email" class="gate-input" placeholder="you@organization.org" aria-label="Email address">
+          <button class="btn-reveal" onclick="revealResults()">Reveal My Tier →</button>
+          <p class="gate-note">Your results download as a PDF immediately after submission.</p>
+        </div>
       </div>
-      <button class="btn-cta" onclick="window.location.href='mailto:collins.ra@northeastern.edu?subject=NSAG M6 Advisory Inquiry'">Talk to an Advisor</button>
     </div>
+
+    <!-- RESULTS -->
+    <div class="screen" id="screen-results">
+      <div class="results-inner">
+        <div class="tier-reveal" id="tier-reveal">
+          <div class="tier-label">Your Readiness Tier</div>
+          <div class="tier-name" id="tier-name">—</div>
+          <div class="tier-score" id="tier-score"></div>
+        </div>
+        <div class="dim-bars" id="dim-bars"></div>
+        <div class="rec-section">
+          <div class="rec-label" id="rec-label">What this means</div>
+          <div class="rec-text" id="rec-text"></div>
+        </div>
+        <div class="bridge-section" id="bridge-section">
+          <div class="bridge-label" id="bridge-label"></div>
+          <div class="bridge-text" id="bridge-text"></div>
+          <div class="bridge-btns" id="bridge-btns"></div>
+        </div>
+        <div class="mobile-radar-wrap">
+        <div class="radar-title" style="text-align:center;margin-bottom:0.75rem">Your Governance Profile</div>
+        <canvas id="mobile-radar-chart" style="max-width:280px;margin:0 auto;display:block"></canvas>
+      </div>
+      <button class="copy-btn" onclick="copyResults()">Copy Results to Clipboard</button>
+      </div>
+    </div>
+
+  </div><!-- end q-panel -->
+
+  <!-- RADAR PANEL -->
+  <div class="radar-panel">
+    <div class="radar-title">Your Governance Profile</div>
+    <div style="font-family:'Manrope',sans-serif;font-size:0.76rem;color:#5A5869;text-align:center;line-height:1.5;margin-bottom:0.75rem;max-width:250px;">Each point is one of your 6 governance dimensions. The shape fills in as you answer — a larger shape means stronger governance across more dimensions.</div>
+    <div class="radar-canvas-wrap">
+      <canvas id="radar-chart"></canvas>
+    </div>
+    <div class="dim-legend" id="dim-legend"></div>
   </div>
 </div>
-<footer>
-  <span class="footer-text">© 2026 RN Collins LLC · Aloha AI Consulting · NSAG Framework</span>
-  <a href="mailto:collins.ra@northeastern.edu" onclick="navigator.clipboard.writeText('collins.ra@northeastern.edu')" class="footer-link">Contact the Architect</a>
-</footer>
+
+<div class="q-footer">
+  <a href="https://nsag-site.vercel.app">nsag-site.vercel.app</a> &nbsp;·&nbsp; © 2026 Rayven-Nikkita Collins LLC
+</div>
+
 <script>
+const GUMROAD = 'https://gumroad.com/nsag';
+const BOOK = 'https://outlook.office.com/bookwithme/user/3ff7c8299177431a8fc2b099238c5e43@northeastern.edu?anonymous&ismsaljsauthenabled&ep=plink';
+const API   = 'https://nsag-api.vercel.app/api/lead';
+const DIM_NAMES = ['Sponsor Conflict Assessment', 'Revenue Dependency Analysis', 'Mission Alignment Review', 'Disclosure Standards', 'Influence Monitoring', 'Exit Protocols'];
+
 const QUESTIONS = [
-  {
-    dimension: "Disclosure Practices",
-    dimKey: "disclosure",
-    text: "Are all organizational sponsorships publicly disclosed, including amounts and material terms?",
-    options: [
-      { text: "Yes — all sponsorships publicly disclosed with amounts and terms", score: 3 },
-      { text: "Primary/major sponsorships disclosed; minor relationships are not", score: 2 },
-      { text: "Sponsor logos displayed; financial terms not disclosed", score: 1 },
-      { text: "No systematic disclosure of sponsorship relationships", score: 0 }
-    ]
-  },
-  {
-    dimension: "Disclosure Practices",
-    dimKey: "disclosure",
-    text: "Are sponsorship disclosures made in all contexts where the relationship is relevant (event signage, digital properties, publications)?",
-    options: [
-      { text: "Yes — consistent disclosure across all relevant contexts", score: 3 },
-      { text: "Disclosed in primary contexts; some gaps exist", score: 2 },
-      { text: "Disclosed at events only; digital and publication disclosure absent", score: 1 },
-      { text: "Disclosure is inconsistent and not policy-driven", score: 0 }
-    ]
-  },
-  {
-    dimension: "Conflict of Interest Policy",
-    dimKey: "conflict",
-    text: "Does your organization have a written conflict of interest policy specifically governing sponsorship acceptance?",
-    options: [
-      { text: "Yes — written, adopted, and actively applied to all new sponsorship decisions", score: 3 },
-      { text: "Written policy exists; inconsistently applied", score: 2 },
-      { text: "Informal conflict of interest practice; not codified", score: 1 },
-      { text: "No conflict of interest policy for sponsorships", score: 0 }
-    ]
-  },
-  {
-    dimension: "Conflict of Interest Policy",
-    dimKey: "conflict",
-    text: "Is every new sponsorship formally reviewed against your conflict of interest policy before acceptance?",
-    options: [
-      { text: "Yes — formal review with documentation required for all sponsorships", score: 3 },
-      { text: "Review occurs for major sponsorships; smaller ones are ad hoc", score: 2 },
-      { text: "Informal review by leadership; no formal process", score: 1 },
-      { text: "No review — sponsorships are accepted without formal evaluation", score: 0 }
-    ]
-  },
-  {
-    dimension: "Community Benefit",
-    dimKey: "community",
-    text: "Does every sponsorship arrangement include a defined community benefit component?",
-    options: [
-      { text: "Yes — community benefit is a required term in all sponsorship agreements", score: 3 },
-      { text: "Community benefit included in major agreements; not required in all", score: 2 },
-      { text: "Community benefit discussed but not formally required", score: 1 },
-      { text: "Community benefit is not a component of sponsorship agreements", score: 0 }
-    ]
-  },
-  {
-    dimension: "Community Benefit",
-    dimKey: "community",
-    text: "Are community benefit commitments monitored and reported on after the sponsorship period?",
-    options: [
-      { text: "Yes — outcomes reported publicly as part of sponsorship accountability", score: 3 },
-      { text: "Outcomes tracked internally; not publicly reported", score: 2 },
-      { text: "Outcomes informally noted; no systematic tracking", score: 1 },
-      { text: "Community benefit commitments are not monitored", score: 0 }
-    ]
-  },
-  {
-    dimension: "Sponsor Selection Criteria",
-    dimKey: "criteria",
-    text: "Does your organization have published criteria defining which sponsors you will and will not accept?",
-    options: [
-      { text: "Yes — explicit exclusion and inclusion criteria are published and enforced", score: 3 },
-      { text: "Internal criteria exist; not published publicly", score: 2 },
-      { text: "Implicit criteria used; not formally documented", score: 1 },
-      { text: "No sponsor selection criteria — decisions are made ad hoc", score: 0 }
-    ]
-  },
-  {
-    dimension: "Sponsor Selection Criteria",
-    dimKey: "criteria",
-    text: "Have you declined a sponsorship in the past two years based on a conflict with your criteria?",
-    options: [
-      { text: "Yes — declined at least one sponsorship on criteria grounds", score: 3 },
-      { text: "Would decline if criteria were violated; no test case has arisen", score: 2 },
-      { text: "Criteria are informal; uncertain whether a decline has occurred", score: 1 },
-      { text: "No — no sponsorship has been declined; criteria may not exist", score: 0 }
-    ]
-  },
-  {
-    dimension: "Accountability Mechanisms",
-    dimKey: "accountability",
-    text: "Is there an annual or regular review of all active sponsorship relationships?",
-    options: [
-      { text: "Yes — formal annual review with documented outcomes", score: 3 },
-      { text: "Informal periodic review by leadership", score: 2 },
-      { text: "Review occurs only when a concern is raised", score: 1 },
-      { text: "No regular sponsorship review", score: 0 }
-    ]
-  },
-  {
-    dimension: "Accountability Mechanisms",
-    dimKey: "accountability",
-    text: "Does your organization have a clear process for terminating a sponsorship if a conflict of interest emerges?",
-    options: [
-      { text: "Yes — termination process is documented and has been used or is ready to use", score: 3 },
-      { text: "Process exists informally; not documented", score: 2 },
-      { text: "Would address it if it arose; no process defined", score: 1 },
-      { text: "No termination process — sponsorships are assumed to continue", score: 0 }
-    ]
-  },
-  {
-    dimension: "Staff Independence",
-    dimKey: "independence",
-    text: "Are staff and board members protected from sponsor pressure to change organizational positions or communications?",
-    options: [
-      { text: "Yes — explicit independence clause in sponsorship agreements; staff briefed", score: 3 },
-      { text: "Implied independence; not formally protected in agreements", score: 2 },
-      { text: "Independence assumed but not formally structured", score: 1 },
-      { text: "No protection against sponsor pressure on organizational positions", score: 0 }
-    ]
-  },
-  {
-    dimension: "Staff Independence",
-    dimKey: "independence",
-    text: "Has any sponsor attempted to influence your organization's programming, communications, or positions in the past two years?",
-    options: [
-      { text: "No — and we have formal mechanisms that prevent this", score: 3 },
-      { text: "No — and we are confident our governance would prevent it", score: 2 },
-      { text: "Possibly — informal pressure has occurred but was resisted", score: 1 },
-      { text: "Yes — sponsor influence on organizational content has occurred", score: 0 }
-    ]
-  },
+  {dim:0,scenario:'Your institution faces a governance question in the area of sponsor conflict assessment.',q:'What does your current governance infrastructure provide for sponsor conflict assessment?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Sponsor conflict assessment is governance. Absence of conflict assessment is absence of governance.'},
+  {dim:0,scenario:'Your institution faces a governance question in the area of sponsor conflict assessment.',q:'What does your current governance infrastructure provide for sponsor conflict assessment?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Disclosure policy for sponsorship relationships is an accountability standard.'},
+  {dim:1,scenario:'Your institution faces a governance question in the area of revenue dependency analysis.',q:'What does your current governance infrastructure provide for revenue dependency analysis?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Revenue dependency thresholds are governance standards. Without them, mission drift is ungoverned.'},
+  {dim:1,scenario:'Your institution faces a governance question in the area of revenue dependency analysis.',q:'What does your current governance infrastructure provide for revenue dependency analysis?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Mission alignment review distinguishes a governed partnership from an ungoverned transaction.'},
+  {dim:2,scenario:'Your institution faces a governance question in the area of mission alignment review.',q:'What does your current governance infrastructure provide for mission alignment review?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Sponsorship influence monitoring is ongoing governance. One-time conflict review is not.'},
+  {dim:2,scenario:'Your institution faces a governance question in the area of mission alignment review.',q:'What does your current governance infrastructure provide for mission alignment review?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Documented termination rights are governance instruments. Informal exit is not governance.'},
+  {dim:3,scenario:'Your institution faces a governance question in the area of disclosure standards.',q:'What does your current governance infrastructure provide for disclosure standards?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Conflict of interest documentation is governance infrastructure. Memory is not.'},
+  {dim:3,scenario:'Your institution faces a governance question in the area of disclosure standards.',q:'What does your current governance infrastructure provide for disclosure standards?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Annual governance review of active sponsorships is accountability infrastructure.'},
+  {dim:4,scenario:'Your institution faces a governance question in the area of influence monitoring.',q:'What does your current governance infrastructure provide for influence monitoring?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Communication of sponsorship governance to beneficiaries is a transparency standard.'},
+  {dim:4,scenario:'Your institution faces a governance question in the area of influence monitoring.',q:'What does your current governance infrastructure provide for influence monitoring?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Stakeholder input on sponsorship decisions is a participation governance standard.'},
+  {dim:5,scenario:'Your institution faces a governance question in the area of exit protocols.',q:'What does your current governance infrastructure provide for exit protocols?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Board-level accountability prevents individual decision-making from being the only check.'},
+  {dim:5,scenario:'Your institution faces a governance question in the area of exit protocols.',q:'What does your current governance infrastructure provide for exit protocols?',opts:[{t:'Formally documented standards, independent monitoring, quarterly review by leadership, and accountability tied to named roles.',s:4},{t:'Standards exist and are generally followed, but monitoring is informal and leadership review is not systematic.',s:3},{t:'Practices exist in this area but depend on individual champions rather than institutional policy.',s:2},{t:'This area has not been formally addressed in our governance framework.',s:1}],rationale:'Governance measurement of sponsorship outcomes converts policy into accountability.'},
 ];
 
-const DIM_FINDINGS = {
-  disclosure: {
-    pioneering: 'All sponsorships are publicly disclosed with amounts and material terms across all relevant contexts.',
-    emerging: 'Primary sponsorships disclosed. Minor relationships and some contexts remain undisclosed.',
-    developing: 'Logos displayed at events but financial terms and full scope are not disclosed.',
-    early: 'No systematic disclosure. Audiences and stakeholders cannot assess conflicts they cannot see.',
-  },
-  conflict: {
-    pioneering: 'A written conflict of interest policy is adopted and formally applied to every new sponsorship decision.',
-    emerging: 'Policy exists but is inconsistently applied — typically to major sponsors only.',
-    developing: 'Informal practice without codified standards. Conflicts are assessed intuitively, not systematically.',
-    early: 'No conflict of interest policy. Every sponsorship decision is made without a framework, creating compounding liability.',
-  },
-  community: {
-    pioneering: 'Community benefit is a required term in all sponsorship agreements, with outcomes tracked and reported.',
-    emerging: 'Community benefit is included in major agreements but not uniformly required.',
-    developing: 'Discussed but not formally required. Intent exists without enforceable commitment.',
-    early: 'No community benefit requirements. Sponsorships serve organizational funding needs without structured community return.',
-  },
-  criteria: {
-    pioneering: 'Published sponsor selection criteria with explicit exclusions are enforced — and used to decline sponsors.',
-    emerging: 'Internal criteria exist but are not public. Selection appears principled without being accountable.',
-    developing: 'Implicit criteria are used but not documented. Decisions look ad hoc from outside.',
-    early: 'No selection criteria. Sponsorships are accepted or declined without a defensible framework.',
-  },
-  accountability: {
-    pioneering: 'Annual review of all sponsorships with a clear, documented termination process that has been tested.',
-    emerging: 'Informal periodic review. Termination process is undefined until a conflict forces a decision.',
-    developing: 'Review occurs only when a concern is raised. No proactive accountability mechanism.',
-    early: 'No accountability system. Sponsorships are assumed to continue without review.',
-  },
-  independence: {
-    pioneering: 'Staff and board independence from sponsor pressure is formally protected in all agreements.',
-    emerging: 'Independence assumed but not formally protected in agreement language.',
-    developing: 'No structural protection. Independence depends on organizational culture, not policy.',
-    early: 'Sponsor influence on organizational positions or content has occurred or cannot be ruled out.',
-  },
-};
+let current = -1; // -1 = intro
+let answers  = new Array(12).fill(null);
+let chart;
 
-const TIER_INFO = {
-  pioneering: { label: "Pioneering", cssClass: "pioneering", desc: "Your organization has built strong governance infrastructure across multiple dimensions. The work now is to maintain these systems under pressure and close remaining gaps." },
-  emerging: { label: "Emerging", cssClass: "emerging", desc: "Your organization is building in the right direction. Meaningful structures are in place. The remaining gaps are specific and addressable — this is where targeted interventions produce the most measurable improvement." },
-  developing: { label: "Developing", cssClass: "developing", desc: "Your organization has early-stage infrastructure. Some awareness and individual supports exist, but systemic conditions have not yet been addressed. The risk of incidents, liability, and trust erosion is real." },
-  early: { label: "Early Stage", cssClass: "early", desc: "Governance infrastructure for this domain does not yet meaningfully exist in your organization. The path forward starts with a leadership conversation and a formal assessment of what needs to be built first." }
-};
-
-let currentQ = 0, answers = new Array(QUESTIONS.length).fill(null), scores = {};
-
-function startAssessment() {
-  document.getElementById('screenWelcome').classList.remove('active');
-  document.getElementById('screenQuestion').classList.add('active');
-  renderQuestion(0);
-}
-
-function renderQuestion(idx) {
-  const q = QUESTIONS[idx];
-  document.getElementById('qDimension').textContent = q.dimension;
-  document.getElementById('qCounter').textContent = (idx+1) + ' of ' + QUESTIONS.length;
-  document.getElementById('qText').textContent = q.text;
-  document.getElementById('btnBack').style.visibility = idx === 0 ? 'hidden' : 'visible';
-  const optDiv = document.getElementById('qOptions');
-  optDiv.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option' + (answers[idx] === i ? ' selected' : '');
-    btn.textContent = opt.text;
-    btn.onclick = () => { answers[idx] = i; document.querySelectorAll('.option').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); document.getElementById('btnNext').disabled = false; };
-    optDiv.appendChild(btn);
+function initRadar() {
+  const ctx = document.getElementById('radar-chart').getContext('2d');
+  chart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: DIM_NAMES,
+      datasets: [{
+        data: [0,0,0,0,0,0],
+        backgroundColor: 'rgba(30,54,81,0.12)',
+        borderColor: '#2E5A28',
+        borderWidth: 2,
+        pointBackgroundColor: '#2E5A28',
+        pointRadius: 4
+      }]
+    },
+    options: {
+      animation: {duration: 600},
+      scales: {r: {
+        min: 0, max: 8,
+        ticks: {stepSize: 2, font:{family:'Syne',size:9}, color:'#5A5869'},
+        grid: {color:'rgba(0,0,0,0.06)'},
+        pointLabels: {font:{family:'Syne',size:10}, color:'#1C1B1F'}
+      }},
+      plugins: {legend:{display:false}}
+    }
   });
-  document.getElementById('progressFill').style.width = (idx / QUESTIONS.length * 100) + '%';
-  document.getElementById('btnNext').disabled = answers[idx] === null;
-  currentQ = idx;
+  buildLegend();
 }
 
-function nextQuestion() { currentQ < QUESTIONS.length - 1 ? renderQuestion(++currentQ) : showCalculating(); }
-function prevQuestion() { if (currentQ > 0) renderQuestion(--currentQ); }
+function buildLegend() {
+  const leg = document.getElementById('dim-legend');
+  leg.innerHTML = DIM_NAMES.map((n,i) =>
+    `<div class="dim-legend-item" id="leg-${i}">
+      <div class="dim-dot" id="dot-${i}"></div>
+      <span>${n}</span>
+      <span class="dim-score-badge" id="dscore-${i}"></span>
+    </div>`
+  ).join('');
+}
 
-function getTier(s) { return s >= 80 ? 'pioneering' : s >= 60 ? 'emerging' : s >= 40 ? 'developing' : 'early'; }
-
-function calculateScores() {
-  const dimRaw = {}, dimCount = {};
-  QUESTIONS.forEach((q, i) => {
-    if (!dimRaw[q.dimKey]) { dimRaw[q.dimKey] = 0; dimCount[q.dimKey] = 0; }
-    dimRaw[q.dimKey] += q.options[answers[i]].score;
-    dimCount[q.dimKey]++;
+function updateRadar() {
+  const dimScores = [0,0,0,0,0,0];
+  const dimCounts = [0,0,0,0,0,0];
+  answers.forEach((a,i) => {
+    if (a !== null) {
+      dimScores[QUESTIONS[i].dim] += a;
+      dimCounts[QUESTIONS[i].dim]++;
+    }
   });
-  const dimNorm = {};
-  Object.keys(dimRaw).forEach(k => { dimNorm[k] = Math.round((dimRaw[k] / (dimCount[k] * 3)) * 100); });
-  scores = dimNorm;
-  const overall = Math.round(Object.values(dimNorm).reduce((a,b) => a+b, 0) / Object.keys(dimNorm).length);
-  return { overall, dimensions: dimNorm };
+  // Scale to 0–8 (2 questions × max 4 each)
+  chart.data.datasets[0].data = dimScores.map((s,i) => dimCounts[i] ? s : 0);
+  chart.update();
+  DIM_NAMES.forEach((_,i) => {
+    const dot = document.getElementById(`dot-${i}`);
+    const badge = document.getElementById(`dscore-${i}`);
+    if (dimCounts[i] > 0) {
+      dot.classList.add('answered');
+      badge.textContent = `${dimScores[i]}/${dimCounts[i]*4}`;
+    }
+  });
 }
 
-function showCalculating() {
-  document.getElementById('screenQuestion').classList.remove('active');
-  document.getElementById('screenCalculating').classList.add('active');
-  document.getElementById('progressFill').style.width = '100%';
-  const final = calculateScores();
-  let count = 0;
-  const ci = setInterval(() => { count = Math.min(count + 2, final.overall); document.getElementById('calcNumber').textContent = count; if (count >= final.overall) clearInterval(ci); }, 30);
-  document.getElementById('calcFill').style.width = final.overall + '%';
-  setTimeout(() => showResults(final), 2800);
+function buildQuestionScreens() {
+  const container = document.getElementById('q-screens');
+  QUESTIONS.forEach((q, qi) => {
+    const letters = ['A','B','C','D'];
+    const optsHTML = q.opts.map((o,oi) =>
+      `<button class="opt" onclick="selectOpt(${qi},${oi},this)" data-score="${o.s}">
+        <div class="opt-letter">${letters[oi]}</div>
+        <div class="opt-text">${o.t}</div>
+      </button>`
+    ).join('');
+    container.innerHTML += `
+      <div class="screen" id="screen-q${qi}">
+        <div class="q-inner">
+          <div class="dim-tag">Dimension ${q.dim+1} of 6 &nbsp;·&nbsp; ${DIM_NAMES[q.dim]}</div>
+          <div class="q-text">${q.scenario}</div>
+          <div class="q-context">${q.q}</div>
+          <div class="options">${optsHTML}</div>
+
+        </div>
+      </div>`;
+  });
 }
 
-function showResults(final) {
-  document.getElementById('screenCalculating').classList.remove('active');
-  document.getElementById('screenResult').classList.add('active');
-  const tier = getTier(final.overall), info = TIER_INFO[tier];
-  const el = document.getElementById('tierName');
-  el.textContent = info.label; el.className = 'tier-name ' + info.cssClass;
-  setTimeout(() => el.classList.add('revealed'), 100);
-  document.getElementById('tierDesc').textContent = info.desc;
-  renderDimensions(final.dimensions);
+function setScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active','exit');
+  });
+  const target = document.getElementById(id);
+  if (target) { target.classList.add('active'); }
 }
 
-function renderDimensions(dimNorm) {
-  const colors = { pioneering: '#2E5A28', emerging: '#1B7A68', developing: '#B8842A', early: '#C24A2E' };
-  const dimLabels = {'disclosure': 'Disclosure Practices', 'conflict': 'Conflict of Interest Policy', 'community': 'Community Benefit', 'criteria': 'Sponsor Selection Criteria', 'accountability': 'Accountability Mechanisms', 'independence': 'Staff Independence'};
-  const container = document.getElementById('dimensionsSection');
-  container.innerHTML = '';
-  Object.keys(dimNorm).forEach(key => {
-    const score = dimNorm[key], tier = getTier(score), label = dimLabels[key] || key;
-    const finding = DIM_FINDINGS[key] ? DIM_FINDINGS[key][tier] : 'Score: ' + score + '/100';
-    container.innerHTML += `<div class="dimension-row"><div class="dim-header"><span class="dim-name">${label}</span><span class="dim-tier ${tier}">${tier === 'early' ? 'Early Stage' : tier.charAt(0).toUpperCase() + tier.slice(1)}</span></div><div class="dim-bar-rail"><div class="dim-bar-fill" style="width:${score}%;background:${colors[tier]}"></div></div><p class="dim-finding">${finding}</p></div>`;
+function startChallenge() {
+  // Hide sector step, show first question
+  current = 0;
+  setScreen('screen-q0');
+  updateProgress();
+}
+function beginFromIntro() {
+  // Show sector selector first
+  showSectorStep();
+}
+
+function selectOpt(qi, oi, btn) {
+  const opts = btn.closest('.options').querySelectorAll('.opt');
+  opts.forEach(o => { o.classList.remove('selected'); o.style.pointerEvents='none'; });
+  btn.classList.add('selected');
+  answers[qi] = parseInt(btn.dataset.score);
+  updateRadar();
+  // Show rationale flash
+  const q = QUESTIONS[qi];
+  if (q.rationale) {
+    const bar = document.getElementById('rationale-bar');
+    bar.textContent = q.rationale;
+    bar.classList.add('show');
+    setTimeout(() => { bar.classList.remove('show'); }, 900);
+  }
+  // Check dimension completion (every 2 questions)
+  if ((qi + 1) % 2 === 0) {
+    const dimIdx = Math.floor(qi / 2);
+    showDimComplete(DIM_NAMES[dimIdx]);
+  }
+  setTimeout(() => { nextQuestion(qi); }, q.rationale ? 1100 : 650); 
+}
+
+function prevQuestion(qi) {
+  const prev = qi - 1;
+  if (prev < 0) { current = -1; setScreen('screen-intro'); }
+  else { current = prev; setScreen('screen-q' + prev); }
+  updateProgress();
+}
+
+function nextQuestion(qi) {
+  if (qi < 11) {
+    current = qi + 1;
+    setScreen(`screen-q${current}`);
+    updateProgress();
+  } else {
+    current = 12; // gate
+    setScreen('screen-gate');
+    updateProgress();
+  }
+}
+
+function updateProgress() {
+  const total = 12;
+  const done = current < 0 ? 0 : Math.min(current, total);
+  const pct = (done / total) * 100;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = current < 0 ? '' : current >= 12 ? `${total}/${total}` : `${done}/${total}`;
+}
+
+function revealResults() {
+  const email = document.getElementById('gate-email').value.trim();
+  const inp = document.getElementById('gate-email');
+  if (!email || !email.includes('@')) {
+    inp.classList.add('error');
+    inp.setAttribute('aria-invalid','true');
+    return;
+  }
+  inp.classList.remove('error');
+
+  // Trigger instant PDF download after short delay (let results render first)
+  const totalScore = answers.reduce((a,b) => a + (b||0), 0);
+  const maxScore = 12 * 4;
+  const pct = Math.round((totalScore / maxScore) * 100);
+  const avg = totalScore / 12;
+  let tier, tierColor, rec, bridgeLabel, bridgeText, bridgeBtns;
+  let dimInsight = '';
+  let crossModule = '';
+  let pioneeringExample = '';
+
+  const dimScores = [0,0,0,0,0,0];
+  answers.forEach((a,i) => { if(a) dimScores[QUESTIONS[i].dim] += a; });
+  const dimPcts = dimScores.map(s => Math.round((s/8)*100));
+  const maxDim = dimPcts.indexOf(Math.max(...dimPcts));
+  const minDim = dimPcts.indexOf(Math.min(...dimPcts));
+  dimInsight = 'Your strongest governance area is <strong>' + DIM_NAMES[maxDim] + ' (' + dimPcts[maxDim] + '%)</strong>. Your most significant gap is <strong>' + DIM_NAMES[minDim] + ' (' + dimPcts[minDim] + '%)</strong>. This pattern is common in institutions with ' + (maxDim < 3 ? 'strong environmental awareness but weaker accountability infrastructure.' : 'trained staff but underdeveloped physical and procedural governance.');
+
+  if (avg >= 3.5) {
+    tier = 'PIONEERING'; tierColor = '#2E5A28';
+    rec = 'Your organization is functioning as a genuinely trauma-informed legal environment. Standards are written, tracked, and tied to named accountability. The governance work at this tier is durability — ensuring these standards survive personnel transitions because they live in policy, not people.';
+    bridgeLabel = 'What to do with a PIONEERING result';
+    bridgeText = 'Your governance is operational. The M6 Governance Toolkit contains the measurement framework and documentation audit tools to confirm your governance will survive leadership transitions. The NSAG advisory engagement benchmarks you against peers and builds quarterly accountability.';
+    bridgeBtns = '<a href="' + 'https://nsag-site.vercel.app/advisory' + '" target="_blank" class="bridge-btn-primary" style="background:#2E5A28">Book an Advisory Engagement</a>'
+              + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #2E5A28;color:#2E5A28">20-Min Discovery Call</a>';
+    crossModule = 'At PIONEERING tier: consider benchmarking against peer institutions through the NSAG cohort program, and taking the M2 Challenge if your organization uses any AI-assisted legal tools.';
+  } else if (avg >= 2.5) {
+    tier = 'EMERGING'; tierColor = '#4D45A8';
+    rec = 'Your organization has meaningful trauma-informed practices in place but they are not yet systemic. Most institutions at this tier cross into PIONEERING within one advisory engagement cycle focused on the lowest-scoring dimensions.';
+    bridgeLabel = 'What to do with an EMERGING result';
+    bridgeText = 'You have governance in place. The gap to PIONEERING is in dimensions that are partially implemented — practice exists but policy does not. The M6 Governance Toolkit contains specific policy language for each gap and a 90-day roadmap for institutions at your exact tier.';
+    bridgeBtns = '<a href="' + GUMROAD + '" target="_blank" class="bridge-btn-primary" style="background:#4D45A8">Get the M6 Governance Toolkit — $500</a>'
+              + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #4D45A8;color:#4D45A8">Book a Discovery Call</a>';
+    crossModule = 'If your ' + DIM_NAMES[minDim] + ' score is your lowest gap, the M' + (minDim < 2 ? '2' : minDim < 4 ? '8' : '2') + ' Challenge addresses the governance infrastructure most likely to accelerate your progress in that dimension.';
+  } else if (avg >= 1.5) {
+    tier = 'DEVELOPING'; tierColor = '#956B18';
+    rec = 'Your organization is meeting baseline legal requirements without yet designing for the physiological realities of trauma. Governance exists in some dimensions but depends on individual champions rather than institutional policy. When that person leaves, the governance leaves with them.';
+    bridgeLabel = 'What to do with a DEVELOPING result';
+    bridgeText = 'Your practices work. They just live in people, not policy. The M6 Governance Toolkit contains policy language templates for all six dimensions, a 90-day action plan built for DEVELOPING institutions, and the measurement framework for proving progress to leadership.';
+    bridgeBtns = '<a href="' + GUMROAD + '" target="_blank" class="bridge-btn-primary" style="background:#956B18">Get the M6 Governance Toolkit — $500</a>'
+              + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #956B18;color:#956B18">Book a Discovery Call</a>';
+    pioneeringExample = 'What PIONEERING looks like in practice: A legal aid organization in Chicago implemented a trauma-informed waiting room assessment, plain language intake forms tested with clients, and mandatory 20-minute staff debriefs after high-stress interactions. Within 6 months their client satisfaction scores improved 34% and staff reported significantly lower secondary traumatic stress symptoms.';
+    crossModule = 'Your ' + DIM_NAMES[minDim] + ' gap is the highest-leverage starting point. Once M1 governance is in place, take the M2 Challenge if you use any AI or algorithmic tools in client intake or case management.';
+  } else {
+    tier = 'EARLY STAGE'; tierColor = '#6B2937';
+    rec = 'Your legal space is producing conditions most likely to re-traumatize the clients you serve. This is a design problem with a design solution. The fastest path forward is not a committee — it is one concrete action this week and governance language in your hands before Monday.';
+    bridgeLabel = 'What to do with an EARLY STAGE result';
+    bridgeText = 'Most institutions begin here. The fastest path out is one concrete action this week and a governance document in your hands. The M6 Governance Toolkit gives you a 90-day roadmap, specific policy language, and measurement criteria to prove progress to leadership.';
+    bridgeBtns = '<a href="' + GUMROAD + '" target="_blank" class="bridge-btn-primary" style="background:#6B2937">Get the M6 Governance Toolkit — $500</a>'
+              + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #6B2937;color:#6B2937">Book a Discovery Call</a>';
+    pioneeringExample = "What PIONEERING looks like here: A community health nonprofit developed a formal sponsorship governance framework — a written conflict assessment for every prospective sponsor, a revenue dependency threshold (no single sponsor exceeding 20% of operating revenue), and an annual influence monitoring review. When a major pharmaceutical sponsor requested naming rights on a harm reduction program, the governance framework provided the documented criteria for declining. The decision was made in two days, not two months."
+    crossModule = "Sponsorship governance intersects with transparency standards in AI governance. If your organization uses AI tools funded by commercial partners, take the M2 or M11 Challenge. If your sponsorships affect public health programming, take the M4 Challenge."
+  }
+
+  // Cinematic reveal first, then show results
+  cinematicReveal(tier, tierColor, function() {
+    // Populate tier reveal
+    const reveal = document.getElementById('tier-reveal');
+    reveal.style.background = tierColor;
+    reveal.style.color = 'white';
+    document.getElementById('tier-name').textContent = tier;
+    
+    // Animate score counter
+    const scoreEl = document.getElementById('tier-score');
+    scoreEl.textContent = '0% overall';
+    setTimeout(() => animateCounter(scoreEl, pct, '% overall · ' + totalScore + ' of ' + maxScore + ' points', 1500), 300);
+
+    // Dimension insight
+    const insightDiv = document.createElement('div');
+    insightDiv.className = 'dim-insight';
+    insightDiv.innerHTML = dimInsight;
+    document.getElementById('dim-bars').before(insightDiv);
+
+    // Dimension bars
+    const bars = document.getElementById('dim-bars');
+    bars.innerHTML = DIM_NAMES.map((n,i) => {
+      const dpct = dimPcts[i];
+      const isMin = i === minDim;
+      const isMax = i === maxDim;
+      return '<div class="dim-bar-item">'
+        + '<div class="dim-bar-label"><span>' + n + (isMax ? ' ●' : isMin ? ' ▲' : '') + '</span><span>' + dpct + '%</span></div>'
+        + '<div class="dim-bar-track"><div class="dim-bar-fill" id="bar-' + i + '" style="background:' + tierColor + '"></div></div>'
+        + '</div>';
+    }).join('');
+
+    // Toolkit preview card
+    const toolkitPreview = document.createElement('div');
+    toolkitPreview.className = 'toolkit-preview';
+    toolkitPreview.innerHTML = "<div class='toolkit-preview-label'>📄 M6 Governance Toolkit — What's Inside</div>" +
+      "<div class='toolkit-preview-title'>Everything you need to act on this result</div>" +
+      "<ul class='toolkit-preview-list'>" +
+      "<li>90-day action roadmap built for " + tier + " institutions</li>" +
+      "<li>Policy language templates for all 6 dimensions — copy directly into documents</li>" +
+      "<li>Self-assessment worksheet: In Place / Partially / Not In Place per criterion</li>" +
+      "<li>Evidence base with 6 primary sources and governance implications</li>" +
+      "<li>Measurement framework: what to track, how often, what triggers a response</li>" +
+      "<li>Governance objections FAQ for leadership conversations</li>" +
+      "</ul>";
+
+    const bridge = document.getElementById('bridge-section');
+    bridge.style.background = tierColor + '14';
+    bridge.style.border = '1px solid ' + tierColor + '40';
+    document.getElementById('bridge-label').style.color = tierColor;
+    document.getElementById('bridge-label').textContent = bridgeLabel;
+    document.getElementById('bridge-text').innerHTML = bridgeText;
+    bridge.querySelector('.bridge-btns') || bridge.insertAdjacentHTML('beforeend', '<div class="bridge-btns" id="bridge-btns"></div>');
+    document.getElementById('bridge-btns').innerHTML = bridgeBtns;
+    
+    // Insert toolkit preview before bridge
+    bridge.before(toolkitPreview);
+
+    // Pioneering example for low tiers
+    if (pioneeringExample) {
+      const exDiv = document.createElement('div');
+      exDiv.className = 'module-suggest';
+      exDiv.innerHTML = "<strong style=\"font-family:Syne,sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy)\">What PIONEERING looks like from here</strong><br><br>" + pioneeringExample;
+      bridge.after(exDiv);
+    }
+
+    // Cross-module suggestions
+    if (crossModule) {
+      const cmDiv = document.createElement('div');
+      cmDiv.className = 'module-suggest';
+      cmDiv.innerHTML = "<strong style=\"font-family:Syne,sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy)\">Related modules</strong><br><br>" + crossModule;
+      document.querySelector('.copy-btn').before(cmDiv);
+    }
+
+    // Result action buttons (share, print, retake)
+    const actions = document.createElement('div');
+    actions.className = 'result-actions';
+    actions.innerHTML = '<button class="act-btn" onclick="shareResult()" aria-label="Share your result">↗ Share Result</button>'
+      + '<button class="act-btn" onclick="printResult()" aria-label="Print your result">⎙ Print Result</button>'
+      + '<button class="act-btn" onclick="location.reload()" aria-label="Retake the challenge">↺ Retake Challenge</button>';
+    document.querySelector('.copy-btn').after(actions);
+
+    // Mobile radar
+    const mobileCanvas = document.getElementById('mobile-radar-chart');
+    if (mobileCanvas && window.innerWidth <= 900) {
+      new Chart(mobileCanvas, {
+        type: 'radar',
+        data: {
+          labels: DIM_NAMES,
+          datasets: [{
+            data: dimScores,
+            backgroundColor: tierColor + '22',
+            borderColor: tierColor,
+            borderWidth: 2,
+            pointBackgroundColor: tierColor,
+            pointRadius: 4
+          }]
+        },
+        options: {
+          scales: { r: { min:0, max:8, ticks: {stepSize:2, font:{size:9}}, pointLabels:{font:{size:10}} } },
+          plugins: { legend: {display:false} }
+        }
+      });
+    }
+
+    setScreen('screen-results');
+    document.getElementById('prog-fill').style.width = '100%';
+    document.getElementById('prog-count').textContent = '12/12';
+
+    // Animate dimension bars
+    setTimeout(() => {
+      DIM_NAMES.forEach((_,i) => {
+        setTimeout(() => {
+          const b = document.getElementById('bar-' + i);
+          if (b) b.style.width = dimPcts[i] + '%';
+        }, 100 + i * 100);
+      });
+    }, 200);
   });
 
-}
-function submitGate() {
-  const email = document.getElementById('gateEmail').value;
-  if (!email || !email.includes('@')) { document.getElementById('gateEmail').focus(); return; }
-  const org = document.getElementById('gateOrg').value;
-  fetch('https://nsag-api.vercel.app/api/lead', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, org, source: 'nsag-m6', module: 'M6', tier: getTier(Object.values(scores).reduce((a,b)=>a+b,0)/Object.keys(scores).length), scores, timestamp: new Date().toISOString() })
+  // API call
+  fetch(API, {method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({email, source:'M6-challenge-result', module:'M6', tier, score:pct,
+      dimScores, timestamp: new Date().toISOString()})
   }).catch(() => {});
-  document.getElementById('gateSuccess').style.display = 'block';
-  document.getElementById('dimensionsSection').classList.remove('blurred');
-  document.getElementById('gateSection').style.opacity = '0.5';
-  document.getElementById('gateSection').style.pointerEvents = 'none';
 }
+
+function copyResults() {
+  const tier = document.getElementById('tier-name').textContent;
+  const score = document.getElementById('tier-score').textContent;
+  const dimScores = [0,0,0,0,0,0];
+  answers.forEach((a,i) => { if(a) dimScores[QUESTIONS[i].dim] += a; });
+  let text = `NSAG M6 — Ethical Civic Sponsorship Governance Challenge\nTier: ${tier} · ${score}\n\nDimension Scores:\n`;
+  DIM_NAMES.forEach((n,i) => { text += `  ${n}: ${Math.round((dimScores[i]/8)*100)}%\n`; });
+  text += '\nnsag-site.vercel.app/m6';
+  navigator.clipboard?.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copied';
+    setTimeout(() => { btn.textContent = 'Copy Results to Clipboard'; }, 2000);
+  });
+}
+
+
+// SECTOR SELECTION
+let selectedSector = 'legal-aid';
+function selectSector(s, btn) {
+  selectedSector = s;
+  document.querySelectorAll('.sector-btn').forEach(b => b.classList.remove('chosen'));
+  btn.classList.add('chosen');
+  const next = document.getElementById('sector-next');
+  if (next) { next.style.opacity = '1'; next.style.pointerEvents = 'all'; }
+}
+function showIntroFromSector() {
+  startChallenge();
+}
+function showSectorStep() {
+  document.getElementById('main-intro').style.display = 'none';
+  document.getElementById('sector-step').style.display = 'block';
+}
+
+// KEYBOARD NAVIGATION
+document.addEventListener('keydown', e => {
+  if (['a','b','c','d'].includes(e.key.toLowerCase())) {
+    const active = document.querySelector('.screen.active');
+    if (!active) return;
+    const opts = active.querySelectorAll('.opt');
+    const idx = 'abcd'.indexOf(e.key.toLowerCase());
+    if (opts[idx] && opts[idx].style.pointerEvents !== 'none') opts[idx].click();
+  }
+  if (e.key === 'Escape') { /* close any overlays */ }
+});
+
+// DIMENSION COMPLETE FLASH
+function showDimComplete(dimName) {
+  const el = document.getElementById('dim-complete');
+  el.textContent = dimName + ' — complete';
+  el.classList.add('pop');
+  setTimeout(() => el.classList.remove('pop'), 1800);
+}
+
+// CINEMATIC REVEAL
+function cinematicReveal(tier, tierColor, callback) {
+  const overlay = document.getElementById('reveal-overlay');
+  const tierText = document.getElementById('reveal-tier-text');
+  const subText = document.getElementById('reveal-sub-text');
+  overlay.style.background = tierColor;
+  tierText.textContent = tier;
+  subText.textContent = 'Your M1 governance tier';
+  overlay.classList.add('active');
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    setTimeout(callback, 500);
+  }, 2200);
+}
+
+// ANIMATED COUNTER
+function animateCounter(el, target, suffix, duration) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.round(start) + (suffix || '');
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// SHARE RESULT
+function shareResult() {
+  const tier = document.getElementById('tier-name').textContent;
+  const text = "My organization scored " + tier + " on the NSAG M6 Ethical Civic Sponsorship Governance Challenge. nsag-site.vercel.app/m6";
+  if (navigator.share) { navigator.share({ text }); }
+  else { navigator.clipboard?.writeText(text).then(() => alert('Copied to clipboard — ready to paste into LinkedIn or email.')); }
+}
+
+// PRINT RESULT  
+function printResult() { window.print(); }
+
+
+function generateResultPDF(tier, tierColor, pct, dimScores, dimPcts, recText, email) {
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const W = 210; const H = 297;
+    const margin = 18;
+    const contentW = W - (margin * 2);
+    
+    // Helper: hex to RGB
+    function hexRGB(hex) {
+      const r = parseInt(hex.slice(1,3),16);
+      const g = parseInt(hex.slice(3,5),16);
+      const b = parseInt(hex.slice(5,7),16);
+      return [r,g,b];
+    }
+    
+    const navyRGB = hexRGB(getComputedStyle(document.documentElement)
+      .getPropertyValue('--navy').trim() || '#1E3651');
+    const tierRGB = hexRGB(tierColor);
+    const nsagRGB = [77,69,168];
+    const mutedRGB = [90,88,105];
+    const borderRGB = [228,226,220];
+    
+    // ── HEADER BAND ─────────────────────────────────────────────
+    doc.setFillColor(...navyRGB);
+    doc.rect(0, 0, W, 38, 'F');
+    
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.setTextColor(180,200,220);
+    doc.text('NSAG · NEUROCOGNITIVE SYSTEMS ADVISORY GROUP', margin, 12);
+    
+    doc.setFontSize(11);
+    doc.setTextColor(255,255,255);
+    const modTitle = document.querySelector('.intro-tag')?.textContent || 'NSAG Governance Challenge';
+    doc.text(modTitle, margin, 22);
+    
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(180,200,220);
+    doc.text('Governance Challenge Result · ' + new Date().toLocaleDateString(), margin, 30);
+    doc.text(email, W - margin, 30, {align:'right'});
+    
+    let y = 50;
+    
+    // ── TIER REVEAL BOX ─────────────────────────────────────────
+    doc.setFillColor(...tierRGB);
+    doc.roundedRect(margin, y, contentW, 32, 3, 3, 'F');
+    
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(255,255,255);
+    doc.text('YOUR READINESS TIER', margin+8, y+10);
+    
+    doc.setFontSize(22);
+    doc.text(tier, margin+8, y+22);
+    
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(9);
+    doc.setTextColor(255,255,255);
+    doc.text(pct + '% overall governance readiness', W-margin-4, y+22, {align:'right'});
+    
+    y += 42;
+    
+    // ── DIMENSION SCORES ────────────────────────────────────────
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...mutedRGB);
+    doc.text('GOVERNANCE DIMENSION SCORES', margin, y);
+    y += 6;
+    
+    const barH = 6; const barGap = 9; const labelW = 52;
+    DIM_NAMES.forEach((name, i) => {
+      const dpct = dimPcts[i];
+      const barY = y + (i * barGap);
+      
+      // Label
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(8);
+      doc.setTextColor(28,27,31);
+      doc.text(name, margin, barY + barH - 1.5);
+      
+      // Track
+      doc.setFillColor(...borderRGB);
+      doc.roundedRect(margin + labelW, barY, contentW - labelW - 18, barH, 1, 1, 'F');
+      
+      // Fill
+      const fillW = Math.max(2, (contentW - labelW - 18) * (dpct / 100));
+      doc.setFillColor(...tierRGB);
+      doc.roundedRect(margin + labelW, barY, fillW, barH, 1, 1, 'F');
+      
+      // Percentage
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(7.5);
+      doc.setTextColor(...mutedRGB);
+      doc.text(dpct + '%', W - margin, barY + barH - 1.5, {align:'right'});
+    });
+    
+    y += (DIM_NAMES.length * barGap) + 10;
+    
+    // ── INTERPRETATION ──────────────────────────────────────────
+    doc.setFillColor(248,246,240);
+    doc.setDrawColor(...borderRGB);
+    doc.roundedRect(margin, y, contentW, 48, 3, 3, 'FD');
+    
+    // Left color bar
+    doc.setFillColor(...tierRGB);
+    doc.roundedRect(margin, y, 3, 48, 1.5, 1.5, 'F');
+    
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(...mutedRGB);
+    doc.text('WHAT THIS MEANS', margin+8, y+10);
+    
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(9);
+    doc.setTextColor(28,27,31);
+    const recLines = doc.splitTextToSize(recText, contentW - 16);
+    doc.text(recLines.slice(0,5), margin+8, y+18);
+    
+    y += 58;
+    
+    // ── TOOLKIT CTA ─────────────────────────────────────────────
+    doc.setFillColor(...navyRGB);
+    doc.roundedRect(margin, y, contentW, 28, 3, 3, 'F');
+    
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.setTextColor(255,255,255);
+    doc.text('Your Next Step: M' + (modTitle.match(/M(\d+)/)||['','?'])[1] + ' Governance Toolkit', margin+8, y+11);
+    
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(8);
+    doc.setTextColor(180,200,220);
+    doc.text('Policy language templates · 90-day action roadmap · Evidence base · $500', margin+8, y+19);
+    doc.text('nsag-site.vercel.app', W-margin-4, y+19, {align:'right'});
+    
+    y += 38;
+    
+    // ── FOOTER ──────────────────────────────────────────────────
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica','normal');
+    doc.setTextColor(...mutedRGB);
+    doc.text('© 2026 Rayven-Nikkita Collins LLC · Neurocognitive Systems Advisory Group · nsag-site.vercel.app', W/2, H-10, {align:'center'});
+    
+    // Draw footer line
+    doc.setDrawColor(...borderRGB);
+    doc.line(margin, H-14, W-margin, H-14);
+    
+    // ── DOWNLOAD ────────────────────────────────────────────────
+    const modSlug = modTitle.replace(/[^a-zA-Z0-9]/g,'_').replace(/_+/g,'_').toLowerCase();
+    doc.save('NSAG_' + modSlug + '_Result.pdf');
+    
+  } catch(err) {
+    console.warn('PDF generation failed:', err);
+    // Fail silently — results screen still shows
+  }
+}
+
+// INIT
+buildQuestionScreens();
+initRadar();
+updateProgress();
 </script>
 </body>
 </html>
