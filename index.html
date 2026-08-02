@@ -255,6 +255,7 @@ body{font-family:'Manrope',sans-serif;background:#F6F3EC!important;color:#1C1B1F
         <div class="intro-tag">M6 · Ethical Civic Sponsorship</div>
         <h1 class="intro-h">How well does your institution govern ethical civic sponsorship?</h1>
         <p class="intro-sub">Fooks et al. (2013) documented how corporations use CSR frameworks to neutralize regulatory threats — making civic institutions participants in lobbying strategies regardless of intent. A sponsorship without governance is a liability without a number.</p>
+        <p style="font-size:0.85rem;color:var(--text);line-height:1.6;margin:0 0 1.25rem;font-weight:500">Built for: nonprofit, arts, sports, and education leaders who negotiate or renew sponsorship agreements. You'll leave with: a documented view of which of your six sponsorship-governance dimensions are policy, and which are just habit.</p>
         <p style="font-size:0.82rem;color:var(--muted);line-height:1.6;margin:-0.25rem 0 1.5rem;padding:0.75rem 1rem;background:rgba(0,0,0,0.03);border-radius:8px">This is an educational self-assessment, not a validated test or audit. Your answers stay in your browser to build your result. At the end you can enter an email to receive the PDF report — used only for your report and optional NSAG follow-up, never sold or shared.</p>
         <div class="intro-meta">
           <div class="meta-item"><div class="meta-num">12</div><div class="meta-label">Scenarios</div></div>
@@ -330,6 +331,15 @@ body{font-family:'Manrope',sans-serif;background:#F6F3EC!important;color:#1C1B1F
     <a href="https://nsag-m5.vercel.app" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600">M5 · Biophilic Civic Infrastructure</a> — governs nature-access equity in civic institutions; a companion built-environment governance challenge.<br>
     <a href="https://nsag-m1.vercel.app" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600">M1 · Trauma-Informed Legal Space</a> — a parallel institutional governance and accountability challenge for legal environments.<br>
     <a href="https://nsag-m7.vercel.app" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600">M7 · Conscious Cities</a> — governs civic and urban-scale design accountability at the city-systems level.
+  </div>
+</div>
+
+<div style="max-width:640px;margin:0 auto;padding:0 2rem 1.5rem;box-sizing:border-box">
+  <div class="module-suggest" style="line-height:1.7">
+    <strong style="font-family:Syne,sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy)">Why This Module Exists</strong><br><br>
+    Corporate sponsorship of civic institutions is not inherently a governance risk — undisclosed, unmonitored sponsorship is. Fooks and colleagues' 2013 analysis of tobacco-industry CSR documented a specific mechanism: sponsorship and philanthropic giving built goodwill and access with the same institutions and regulators the sponsor had a commercial interest in influencing, independent of whether any individual sponsorship decision was made in bad faith. The pattern repeats across sectors — a pharmaceutical sponsor and a public-health nonprofit, a fossil-fuel company and an arts institution, a lobbying-adjacent finance sponsor and a research center: the mechanism doesn't require malice, it only requires the absence of governance.<br><br>
+    This module treats sponsorship as an ordinary institutional risk with an ordinary governance answer: named criteria for accepting or declining a sponsor (Sponsor Conflict Assessment), a ceiling on how much of your revenue any one sponsor represents (Revenue Dependency Analysis), a recurring check that the partnership still serves your mission (Mission Alignment Review), what you tell your board, staff, and beneficiaries about the relationship (Disclosure Standards), whether anyone is watching for the sponsor's influence to expand past the terms of the agreement (Influence Monitoring), and what happens when a sponsorship needs to end (Exit Protocols). An institution that can answer all six in writing is not immune to conflicts of interest — it is simply positioned to catch and resolve them before they become public failures.
+    <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid var(--border);font-size:0.72rem;color:var(--muted)">Last reviewed August 2026. Sponsorship-disclosure norms and nonprofit conflict-of-interest expectations continue to evolve — confirm current guidance with your sector's regulatory or accreditation body before adopting policy language.</div>
   </div>
 </div>
 
@@ -545,32 +555,32 @@ function revealResults() {
 
   if (avg >= 3.5) {
     tier = 'PIONEERING'; tierColor = '#2E5A28';
-    rec = 'Your organization is functioning as a genuinely trauma-informed legal environment. Standards are written, tracked, and tied to named accountability. The governance work at this tier is durability — ensuring these standards survive personnel transitions because they are written into policy, so they hold when the people who built them move on.';
+    rec = 'Your institution treats sponsorship as an ordinary institutional risk with an ordinary governance answer. Conflict assessment, revenue thresholds, mission review, disclosure, influence monitoring, and exit protocols are documented, tracked, and tied to named accountability. The governance work at this tier is durability — ensuring these standards survive board and staff transitions because they are written into policy, not carried by whoever negotiated the original agreement.';
     bridgeLabel = 'What to do with a PIONEERING result';
     bridgeText = 'Your governance is operational. The M6 Governance Toolkit contains the measurement framework and documentation audit tools to confirm your governance will survive leadership transitions. The NSAG advisory engagement benchmarks you against peers and builds quarterly accountability.';
     bridgeBtns = '<a href="' + 'https://nsag-site.vercel.app/advisory' + '" target="_blank" class="bridge-btn-primary" style="background:#2E5A28">Book an Advisory Engagement</a>'
               + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #2E5A28;color:#2E5A28">20-Min Discovery Call</a>';
-    crossModule = 'At PIONEERING tier: consider benchmarking against peer institutions through the NSAG cohort program, and taking the M2 Challenge if your organization uses any AI-assisted legal tools.';
+    crossModule = 'At PIONEERING tier: benchmark against peer institutions through the NSAG cohort program, and take the M7 Challenge if your sponsorship decisions intersect with civic or urban-scale design accountability.';
   } else if (avg >= 2.5) {
     tier = 'EMERGING'; tierColor = '#4D45A8';
-    rec = 'Your organization has meaningful trauma-informed practices in place but they are not yet systemic. Most institutions at this tier cross into PIONEERING within one advisory engagement cycle focused on the lowest-scoring dimensions.';
+    rec = 'Your institution has meaningful sponsorship-governance practices in place but they are not yet systemic across all six dimensions. Most institutions at this tier cross into PIONEERING within one governance cycle focused on the lowest-scoring dimensions.';
     bridgeLabel = 'What to do with an EMERGING result';
     bridgeText = 'You have governance in place. The gap to PIONEERING is in dimensions that are partially implemented — practice exists but policy does not. The M6 Governance Toolkit contains specific policy language for each gap and a 90-day roadmap for institutions at your exact tier.';
     bridgeBtns = '<a href="' + GUMROAD + '" target="_blank" class="bridge-btn-primary" style="background:#4D45A8">Get the M6 Governance Toolkit — $500</a>'
               + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #4D45A8;color:#4D45A8">Book a Discovery Call</a>';
-    crossModule = 'If your ' + DIM_NAMES[minDim] + ' score is your lowest gap, the M' + (minDim < 2 ? '2' : minDim < 4 ? '8' : '2') + ' Challenge addresses the governance infrastructure most likely to accelerate your progress in that dimension.';
+    crossModule = 'Your lowest dimension, ' + DIM_NAMES[minDim] + ', is where a focused governance cycle will move you fastest toward PIONEERING.';
   } else if (avg >= 1.5) {
     tier = 'DEVELOPING'; tierColor = '#956B18';
-    rec = 'Your organization is meeting baseline legal requirements without yet designing for the physiological realities of trauma. Governance exists in some dimensions but depends on individual champions rather than institutional policy. When that person leaves, the governance leaves with them.';
+    rec = 'Your institution is meeting baseline disclosure expectations without yet governing for the structural influence sponsorship revenue can carry. Governance exists in some dimensions — a conflict check here, a disclosure line there — but depends on individual champions rather than institutional policy. When that person leaves, the governance leaves with them.';
     bridgeLabel = 'What to do with a DEVELOPING result';
     bridgeText = 'Your practices work — right now they live in the people who carry them. Writing them into policy is what makes them hold when those people move on. The M6 Governance Toolkit contains policy language templates for all six dimensions, a 90-day action plan built for DEVELOPING institutions, and the measurement framework for proving progress to leadership.';
     bridgeBtns = '<a href="' + GUMROAD + '" target="_blank" class="bridge-btn-primary" style="background:#956B18">Get the M6 Governance Toolkit — $500</a>'
               + '<a href="' + BOOK + '" class="bridge-btn-secondary" style="border:1.5px solid #956B18;color:#956B18">Book a Discovery Call</a>';
-    pioneeringExample = 'What PIONEERING looks like in practice: A legal aid organization in Chicago implemented a trauma-informed waiting room assessment, plain language intake forms tested with clients, and mandatory 20-minute staff debriefs after high-stress interactions. Within 6 months their client satisfaction scores improved 34% and staff reported significantly lower secondary traumatic stress symptoms.';
-    crossModule = 'Your ' + DIM_NAMES[minDim] + ' gap is the highest-leverage starting point. Once M1 governance is in place, take the M2 Challenge if you use any AI or algorithmic tools in client intake or case management.';
+    pioneeringExample = 'What PIONEERING looks like on the way there: A performing arts nonprofit moved from ad hoc sponsor vetting to a documented revenue-dependency ceiling and an annual disclosure review presented to its board. The remaining gap was exit protocols — no sponsor agreement specified conditions for early termination — which the organization wrote into its next contract cycle.';
+    crossModule = 'Your ' + DIM_NAMES[minDim] + ' gap is the highest-leverage starting point. If your sponsorships touch public health programming, the M4 Challenge addresses the population-level governance standards those partnerships intersect with.';
   } else {
     tier = 'EARLY STAGE'; tierColor = '#6B2937';
-    rec = 'Your legal space is producing conditions most likely to re-traumatize the clients you serve. This is a design problem with a design solution. The fastest path forward is not a committee — it is one concrete action this week and governance language in your hands before Monday.';
+    rec = 'Your institution is accepting sponsorship revenue without the governance infrastructure to assess conflict, monitor influence, or exit a relationship that compromises mission. This is a structural problem with a structural solution — the fastest path forward is not a committee, it is one written conflict-assessment standard this week.';
     bridgeLabel = 'What to do with an EARLY STAGE result';
     bridgeText = 'Most institutions begin here. The fastest path out is one concrete action this week and a governance document in your hands. The M6 Governance Toolkit gives you a 90-day roadmap, specific policy language, and measurement criteria to prove progress to leadership.';
     bridgeBtns = '<a href="' + GUMROAD + '" target="_blank" class="bridge-btn-primary" style="background:#6B2937">Get the M6 Governance Toolkit — $500</a>'
