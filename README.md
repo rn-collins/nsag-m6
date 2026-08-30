@@ -1,6 +1,6 @@
-# NSAG M6 — Quality Systems
+# NSAG M6 — Ethical Civic Sponsorship
 
-Retired NSAG prototype module covering Quality Systems.
+Retired standalone deployment of NSAG module M6, Ethical Civic Sponsorship (Legal & Justice). The module's canonical page is https://nsag-site.vercel.app/m6.
 
 **Live:** https://nsag-m6.vercel.app
 
@@ -10,7 +10,7 @@ This prototype has been retired. The deployment remains online as a record; it i
 
 ## Repository contents
 
-`index.html`, `vercel.json`
+`index.html`, `vercel.json`, `og.png`, `favicon.svg`, `apple-touch-icon.png`
 
 ## Local development
 
